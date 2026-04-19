@@ -1,0 +1,16 @@
+<div class="relative inline-block" data-controller="dropdown">
+  <button class="inline-flex items-center justify-center w-8 h-8 rounded-lg hover:bg-gray-100 text-gray-600 hover:text-gray-900 transition-colors"
+          data-action="click->dropdown#toggle">
+    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 20 20" fill="currentColor">
+      <path d="M6 10a2 2 0 11-4 0 2 2 0 014 0zM12 10a2 2 0 11-4 0 2 2 0 014 0zM16 12a2 2 0 100-4 2 2 0 000 4z"/>
+    </svg>
+  </button>
+
+  <% if content.present? %>
+    <div class="absolute <%= position_classes %> mt-2 w-48 bg-white border border-gray-200 rounded-lg shadow-lg hidden z-50 py-1 divide-y divide-gray-100"
+         data-dropdown-target="menu"
+         data-action="click@window->dropdown#close">
+      <%= content %>
+    </div>
+  <% end %>
+</div>

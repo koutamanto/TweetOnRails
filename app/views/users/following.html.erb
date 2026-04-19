@@ -1,0 +1,21 @@
+<div class="sticky top-0 bg-white/80 backdrop-blur-sm border-b border-gray-100 px-4 py-3 z-10 flex items-center gap-4">
+  <%= link_to :back, class: "p-2 rounded-full hover:bg-gray-100 transition-colors -ml-2" do %>
+    <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18"/></svg>
+  <% end %>
+  <div>
+    <h1 class="font-bold text-xl"><%= @user.display_name %></h1>
+    <p class="text-xs text-gray-500">@<%= @user.username %></p>
+  </div>
+</div>
+
+<div class="flex border-b border-gray-100">
+  <%= link_to following_user_path(@user.username), class: "flex-1 text-center py-3 text-sm font-medium hover:bg-gray-50 text-sky-500 border-b-2 border-sky-500" do %>フォロー中<% end %>
+  <%= link_to followers_user_path(@user.username), class: "flex-1 text-center py-3 text-sm font-medium hover:bg-gray-50 text-gray-500 border-b-2 border-transparent" do %>フォロワー<% end %>
+</div>
+
+<% @users.each do |user| %>
+  <%= render "users/user_row", user: user, current_user: current_user %>
+<% end %>
+<% if @users.empty? %>
+  <div class="text-center py-16 text-gray-400"><p>フォロー中のユーザーがいません</p></div>
+<% end %>

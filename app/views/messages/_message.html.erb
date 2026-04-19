@@ -1,0 +1,14 @@
+<% is_mine = message.sender == current_user %>
+<div class="flex <%= is_mine ? 'justify-end' : 'justify-start' %> gap-2">
+  <% unless is_mine %>
+    <%= avatar_tag(message.sender, size: :sm) %>
+  <% end %>
+  <div class="max-w-[70%]">
+    <div class="px-4 py-2.5 rounded-2xl text-sm leading-relaxed <%= is_mine ? 'bg-sky-500 text-white rounded-br-sm' : 'bg-gray-100 text-gray-900 rounded-bl-sm' %>">
+      <%= message.body %>
+    </div>
+    <p class="text-[10px] text-gray-400 mt-0.5 <%= is_mine ? 'text-right' : 'text-left' %>">
+      <%= message.created_at.strftime("%H:%M") %>
+    </p>
+  </div>
+</div>

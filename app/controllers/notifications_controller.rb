@@ -1,0 +1,12 @@
+class NotificationsController < ApplicationController
+  def index
+    @notifications = current_user.notifications.includes(:actor, :notifiable).recent.page(params[:page]).per(30)
+    current_user.notifications.unread.update_all(read_at: Time.current)
+    @unread_notifications_count = 0
+  end
+
+  def mark_all_read
+    current_user.notifications.unread.update_all(read_at: Time.current)
+    redirect_to notifications_path
+  end
+end

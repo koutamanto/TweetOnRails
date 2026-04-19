@@ -1,0 +1,13 @@
+{
+  "[ruby]": {
+    "editor.defaultFormatter": "Shopify.ruby-lsp",
+    "editor.formatOnSave": true,
+    "editor.tabSize": 2
+  },
+  "[erb]": {
+    "editor.formatOnSave": true,
+    "editor.tabSize": 2
+  },
+  // Railsはインデント2スペースが絶対の掟（規約）です
+  "editor.tabSize": 2
+}

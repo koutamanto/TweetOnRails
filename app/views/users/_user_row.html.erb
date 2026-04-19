@@ -1,0 +1,15 @@
+<div class="flex items-center gap-3 px-4 py-3 hover:bg-gray-50 border-b border-gray-100 transition-colors">
+  <%= link_to user_path(user.username), class: "flex-shrink-0" do %>
+    <%= avatar_tag(user, size: :md) %>
+  <% end %>
+  <div class="flex-1 min-w-0">
+    <%= link_to user.display_name, user_path(user.username), class: "font-bold hover:underline text-sm block truncate" %>
+    <p class="text-gray-500 text-xs">@<%= user.username %></p>
+    <% if user.bio.present? %>
+      <p class="text-sm text-gray-700 mt-0.5 line-clamp-2"><%= user.bio %></p>
+    <% end %>
+  </div>
+  <% if user != current_user %>
+    <%= render "users/follow_btn", user: user, current_user: current_user %>
+  <% end %>
+</div>

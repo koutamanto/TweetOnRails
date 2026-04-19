@@ -1,0 +1,2 @@
+<%= turbo_stream.prepend "tweets", partial: "shared/tweet_card", locals: { tweet: @tweet, current_user: current_user } %>
+<%= turbo_stream.replace "tweet_form", partial: "shared/compose", locals: { tweet: Tweet.new } %>

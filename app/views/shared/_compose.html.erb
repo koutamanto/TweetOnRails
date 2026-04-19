@@ -1,0 +1,37 @@
+<%= turbo_frame_tag "tweet_form" do %>
+  <div class="border-b border-gray-100 p-4">
+    <%= form_with model: tweet, url: tweets_path,
+          data: { controller: "tweet-composer", turbo_frame: "_top" },
+          class: "flex gap-3" do |f| %>
+      <div class="flex-shrink-0"><%= avatar_tag(current_user, size: :md) %></div>
+      <div class="flex-1 min-w-0">
+        <%= f.text_area :body,
+              placeholder: "いまどうしてる？",
+              rows: 2,
+              class: "w-full resize-none border-0 outline-none text-xl placeholder-gray-400 bg-transparent",
+              data: { tweet_composer_target: "textarea", action: "input->tweet-composer#autoResize" } %>
+
+        <div id="media_preview" class="grid grid-cols-2 gap-1 mt-2 hidden rounded-2xl overflow-hidden"
+             data-tweet-composer-target="mediaPreview"></div>
+
+        <div class="flex items-center justify-between mt-3 pt-3 border-t border-gray-100">
+          <div class="flex items-center gap-1">
+            <label class="p-2 rounded-full hover:bg-sky-50 text-sky-500 cursor-pointer transition-colors">
+              <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z"/>
+              </svg>
+              <%= f.file_field :media, multiple: true, accept: "image/*,video/*", class: "hidden",
+                    data: { tweet_composer_target: "mediaInput", action: "change->tweet-composer#previewMedia" } %>
+            </label>
+          </div>
+          <div class="flex items-center gap-3">
+            <span class="text-sm text-gray-400" data-tweet-composer-target="counter">280</span>
+            <%= f.submit "ツイートする",
+                  class: "bg-sky-500 hover:bg-sky-600 text-white font-bold px-5 py-2 rounded-full text-sm transition-colors disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer",
+                  data: { tweet_composer_target: "submitBtn" } %>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+<% end %>

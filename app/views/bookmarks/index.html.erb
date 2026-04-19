@@ -1,0 +1,20 @@
+<div class="sticky top-0 bg-white/80 backdrop-blur-sm border-b border-gray-100 px-4 py-3 z-10">
+  <h1 class="font-bold text-xl">ブックマーク</h1>
+  <p class="text-xs text-gray-500">@<%= current_user.username %>のブックマーク</p>
+</div>
+
+<% if @tweets.any? %>
+  <% @tweets.each do |tweet| %>
+    <%= render "shared/tweet_card", tweet: tweet, current_user: current_user %>
+  <% end %>
+<% else %>
+  <div class="text-center py-16 px-4">
+    <div class="w-16 h-16 bg-sky-50 rounded-full flex items-center justify-center mx-auto mb-4">
+      <svg class="w-8 h-8 text-sky-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0111.186 0z"/>
+      </svg>
+    </div>
+    <h2 class="font-bold text-2xl mb-2">ブックマークがありません</h2>
+    <p class="text-gray-500 text-sm">後で読みたいツイートをブックマークしましょう</p>
+  </div>
+<% end %>
