@@ -40,8 +40,8 @@ Rails.application.routes.draw do
   end
 
   namespace :settings do
-    get :profile
-    patch :profile, action: :update_profile
+    get  'profile', to: 'profile#profile'
+    patch 'profile', to: 'profile#update_profile'
   end
 
   get "up" => "rails/health#show", as: :rails_health_check
