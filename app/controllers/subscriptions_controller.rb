@@ -38,10 +38,7 @@ class SubscriptionsController < ApplicationController
 
     if session_id.present? && session_id != "{CHECKOUT_SESSION_ID}"
       begin
-        stripe_session = Stripe::Checkout::Session.retrieve(
-          session_id,
-          expand: ["subscription"]
-        )
+        stripe_session = Stripe::Checkout::Session.retrieve(session_id)
 
         # Identify the correct user from session metadata (handles rare case
         # where browser session switched accounts mid-flow)
