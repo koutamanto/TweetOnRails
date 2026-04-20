@@ -1,0 +1,22 @@
+[Unit]
+Description=TweetOnRails Rails App
+After=docker.service network.target
+Requires=docker.service
+
+[Service]
+Restart=always
+ExecStartPre=-/usr/bin/docker stop tweeton-rails
+ExecStartPre=-/usr/bin/docker rm tweeton-rails
+ExecStart=/usr/bin/docker run --name tweeton-rails \
+  -p 127.0.0.1:3000:3000 \
+  -e RAILS_ENV=production \
+  -e RAILS_MASTER_KEY=5e7731312ae22421fa346737b9d814cf \
+  -e RAILS_LOG_TO_STDOUT=true \
+  -e RAILS_SERVE_STATIC_FILES=true \
+  -v /root/TweetOnRails/storage:/rails/storage \
+  --restart always \
+  tweeton-rails:latest
+ExecStop=/usr/bin/docker stop tweeton-rails
+
+[Install]
+WantedBy=multi-user.target
