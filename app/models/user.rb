@@ -27,6 +27,7 @@ class User < ApplicationRecord
 
   has_many :conversation_participants, dependent: :destroy
   has_many :conversations, through: :conversation_participants
+  has_many :push_subscriptions, dependent: :destroy
 
   validates :username, presence: true,
                        uniqueness: { case_sensitive: false },

@@ -1,4 +1,4 @@
-const CACHE_NAME = 'robin-v1';
+const CACHE_NAME = 'robin-v2';
 const OFFLINE_URL = '/offline';
 
 const STATIC_ASSETS = [
@@ -74,4 +74,37 @@ self.addEventListener('fetch', (event) => {
       )
     );
   }
+});
+
+// ── Web Push ──────────────────────────────────────────────────────────────────
+
+self.addEventListener('push', (event) => {
+  if (!event.data) return;
+  const data = event.data.json();
+  event.waitUntil(
+    self.registration.showNotification(data.title || 'Robin', {
+      body:      data.body,
+      icon:      data.icon  || '/icons/icon-192x192.png',
+      badge:     data.badge || '/icons/icon-72x72.png',
+      tag:       data.tag,
+      renotify:  true,
+      data:      { url: data.url || '/' }
+    })
+  );
+});
+
+self.addEventListener('notificationclick', (event) => {
+  event.notification.close();
+  const target = event.notification.data?.url || '/';
+  event.waitUntil(
+    clients.matchAll({ type: 'window', includeUncontrolled: true }).then((list) => {
+      for (const client of list) {
+        if ('focus' in client) {
+          client.navigate(target);
+          return client.focus();
+        }
+      }
+      return clients.openWindow(target);
+    })
+  );
 });

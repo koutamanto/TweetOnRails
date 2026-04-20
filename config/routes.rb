@@ -9,6 +9,9 @@ Rails.application.routes.draw do
   root "home#index"
   get "home/new_tweets", to: "home#new_tweets"
 
+  post   "push_subscriptions",         to: "push_subscriptions#create"
+  delete "push_subscriptions",         to: "push_subscriptions#destroy"
+
   get "explore", to: "explore#index"
   get "search", to: "search#index"
   get "bookmarks", to: "bookmarks#index"
