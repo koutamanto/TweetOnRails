@@ -17,7 +17,6 @@ class SubscriptionsController < ApplicationController
 
     session = Stripe::Checkout::Session.create(
       customer: customer.id,
-      customer_update: { email: "never", name: "never" },
       mode: "subscription",
       line_items: [{ price: price_id, quantity: 1 }],
       success_url: raw_success_url,
