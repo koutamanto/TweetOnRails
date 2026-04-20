@@ -21,6 +21,10 @@ class User < ApplicationRecord
   has_many :passive_follows, class_name: "Follow", foreign_key: :following_id, dependent: :destroy
   has_many :followers, through: :passive_follows, source: :follower
 
+  has_one  :creator_profile, dependent: :destroy
+  has_many :fan_subscriptions, foreign_key: :subscriber_id, dependent: :destroy
+  has_many :premium_purchases, foreign_key: :buyer_id, dependent: :destroy
+
   has_many :conversation_participants, dependent: :destroy
   has_many :conversations, through: :conversation_participants
 

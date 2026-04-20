@@ -30,6 +30,7 @@ module ApplicationHelper
 
   def avatar_tag(user, size: :md)
     size_class = case size
+                 when :xs then "w-6 h-6"
                  when :sm then "w-8 h-8"
                  when :md then "w-10 h-10"
                  when :lg then "w-16 h-16"

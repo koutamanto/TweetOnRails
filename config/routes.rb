@@ -50,6 +50,36 @@ Rails.application.routes.draw do
   get  'subscriptions/success', to: 'subscriptions#success', as: :success_subscriptions
   get  'billing/portal', to: 'subscriptions#portal', as: :billing_portal
 
+  # Creator tools
+  namespace :creator do
+    get  'setup',           to: 'onboarding#setup',          as: :setup
+    post 'setup',           to: 'onboarding#create_account', as: :create_account
+    get  'stripe/connect',  to: 'onboarding#stripe_connect', as: :stripe_connect
+    get  'stripe/return',   to: 'onboarding#stripe_return',  as: :stripe_return
+    get  'stripe/refresh',  to: 'onboarding#stripe_refresh', as: :stripe_refresh
+    get  'dashboard',       to: 'dashboard#show',            as: :dashboard
+    resources :posts, controller: 'premium_posts',           as: :posts
+    get  'earnings',        to: 'earnings#show',             as: :earnings
+    get  'payout',          to: 'payout_settings#show',      as: :payout
+    patch 'payout',         to: 'payout_settings#update',    as: :update_payout
+  end
+
+  # Public creator profile
+  get 'creators/:username', to: 'creator_profiles#show', as: :creator_profile
+
+  # Premium posts (public view)
+  resources :premium_posts, only: [:show]
+
+  # Fan subscriptions
+  resources :fan_subscriptions, only: [:create, :destroy] do
+    collection { get :success }
+  end
+
+  # PPV purchases
+  resources :premium_purchases, only: [:create] do
+    collection { get :success }
+  end
+
   namespace :webhooks do
     post 'stripe', to: 'stripe#receive'
   end

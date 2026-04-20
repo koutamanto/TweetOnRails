@@ -1,0 +1,60 @@
+<div class="px-4 py-6 max-w-2xl">
+  <div class="flex items-center justify-between mb-6">
+    <h1 class="text-xl font-bold">投稿管理</h1>
+    <%= link_to "＋ 新しい投稿", new_creator_post_path,
+          class: "bg-purple-600 hover:bg-purple-700 text-white font-bold px-4 py-2 rounded-full text-sm transition-colors" %>
+  </div>
+
+  <% if @published.any? %>
+    <h2 class="font-semibold text-gray-600 text-sm uppercase tracking-wide mb-3">公開中 (<%= @published.count %>)</h2>
+    <div class="space-y-2 mb-6">
+      <% @published.each do |post| %>
+        <div class="flex items-center gap-3 p-4 border border-gray-200 rounded-xl hover:bg-gray-50 transition-colors">
+          <div class="flex-1 min-w-0">
+            <p class="font-semibold text-sm truncate"><%= post.title %></p>
+            <p class="text-xs text-gray-400 mt-0.5">
+              <%= post.published_at&.strftime("%Y年%m月%d日") %>
+              · 閲覧 <%= post.views_count %>
+              · 購入 <%= post.purchases_count %>
+              <% if post.ppv? %>
+                · <span class="text-purple-600 font-medium">¥<%= number_with_delimiter(post.price) %></span>
+              <% else %>
+                · <span class="text-blue-500 font-medium">サブスク限定</span>
+              <% end %>
+            </p>
+          </div>
+          <div class="flex items-center gap-2 flex-shrink-0">
+            <%= link_to "編集", edit_creator_post_path(post),
+                  class: "text-xs text-gray-500 border border-gray-200 hover:bg-gray-100 px-3 py-1.5 rounded-lg transition-colors" %>
+            <%= link_to "公開", premium_post_path(post), target: "_blank",
+                  class: "text-xs text-purple-600 border border-purple-200 hover:bg-purple-50 px-3 py-1.5 rounded-lg transition-colors" %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+
+  <% if @drafts.any? %>
+    <h2 class="font-semibold text-gray-400 text-sm uppercase tracking-wide mb-3">ドラフト (<%= @drafts.count %>)</h2>
+    <div class="space-y-2">
+      <% @drafts.each do |post| %>
+        <div class="flex items-center gap-3 p-4 border border-dashed border-gray-200 rounded-xl hover:bg-gray-50 transition-colors">
+          <div class="flex-1 min-w-0">
+            <p class="font-semibold text-sm truncate text-gray-500"><%= post.title %></p>
+            <p class="text-xs text-gray-400 mt-0.5">更新: <%= post.updated_at.strftime("%Y年%m月%d日") %></p>
+          </div>
+          <%= link_to "編集", edit_creator_post_path(post),
+                class: "flex-shrink-0 text-xs text-gray-500 border border-gray-200 hover:bg-gray-100 px-3 py-1.5 rounded-lg transition-colors" %>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+
+  <% if @published.empty? && @drafts.empty? %>
+    <div class="text-center py-16 border-2 border-dashed border-gray-200 rounded-2xl">
+      <p class="font-semibold text-gray-400 mb-3">投稿がありません</p>
+      <%= link_to "最初の投稿を作成する →", new_creator_post_path,
+            class: "bg-purple-600 hover:bg-purple-700 text-white font-bold px-6 py-2.5 rounded-full text-sm transition-colors" %>
+    </div>
+  <% end %>
+</div>

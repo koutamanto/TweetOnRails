@@ -135,13 +135,13 @@
           </div>
         <% else %>
           <div data-pricing-toggle-target="monthlyForm">
-            <%= form_with url: subscriptions_path, method: :post do |f| %>
+            <%= form_with url: subscriptions_path, method: :post, data: { turbo: false } do |f| %>
               <%= f.hidden_field :interval, value: "month" %>
               <%= f.submit "月払いで始める", class: "w-full bg-sky-500 hover:bg-sky-600 text-white font-bold py-3 rounded-full text-sm transition-colors cursor-pointer" %>
             <% end %>
           </div>
           <div data-pricing-toggle-target="yearlyForm" class="hidden">
-            <%= form_with url: subscriptions_path, method: :post do |f| %>
+            <%= form_with url: subscriptions_path, method: :post, data: { turbo: false } do |f| %>
               <%= f.hidden_field :interval, value: "year" %>
               <%= f.submit "年払いで始める（2ヶ月無料）", class: "w-full bg-sky-500 hover:bg-sky-600 text-white font-bold py-3 rounded-full text-sm transition-colors cursor-pointer" %>
             <% end %>
