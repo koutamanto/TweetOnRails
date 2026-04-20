@@ -1,5 +1,5 @@
 namespace :stripe do
-  desc "Create Robin Pro products and prices in Stripe. Outputs ENV var values to add."
+  desc "Create Robin Pro products and prices in Stripe. Run via: RAILS_MASTER_KEY=$(cat config/master.key) STRIPE_SECRET_KEY=sk_live_... bundle exec rails stripe:setup"
   task setup: :environment do
     abort "STRIPE_SECRET_KEY is not set" unless ENV["STRIPE_SECRET_KEY"].present?
 

@@ -2,6 +2,12 @@ class Users::RegistrationsController < Devise::RegistrationsController
   before_action :configure_sign_up_params, only: [:create]
   before_action :configure_account_update_params, only: [:update]
 
+  def create
+    super do |resource|
+      resource.skip_confirmation! if resource.persisted?
+    end
+  end
+
   protected
 
   def configure_sign_up_params

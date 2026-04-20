@@ -6,7 +6,7 @@
       <p class="text-gray-500 text-sm mt-2">登録したメールアドレスを入力してください</p>
     </div>
 
-    <%= form_with model: resource, as: resource_name, url: password_path(resource_name), method: :post, class: "space-y-4" do |f| %>
+    <%= form_with model: resource, as: resource_name, url: password_path(resource_name), method: :post, class: "space-y-4", data: { turbo: false } do |f| %>
       <div>
         <%= f.email_field :email, autofocus: true, placeholder: "メールアドレス",
               class: "w-full px-4 py-3 border border-gray-300 rounded-lg text-sm focus:border-sky-500 focus:outline-none focus:ring-2 focus:ring-sky-500/20 transition" %>
