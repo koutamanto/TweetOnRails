@@ -3,7 +3,7 @@ import consumer from "channels/consumer"
 
 export default class extends Controller {
   static targets = ["messages", "input"]
-  static values = { conversationId: Number }
+  static values = { conversationId: Number, currentUserId: Number }
 
   connect() {
     this.scrollToBottom()
@@ -11,6 +11,7 @@ export default class extends Controller {
       { channel: "ConversationChannel", conversation_id: this.conversationIdValue },
       {
         received: (data) => {
+          if (data.sender_id && data.sender_id === this.currentUserIdValue) return
           this.messagesTarget.insertAdjacentHTML("beforeend", data.html)
           this.scrollToBottom()
         }

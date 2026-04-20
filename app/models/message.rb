@@ -9,9 +9,10 @@ class Message < ApplicationRecord
   end
 
   def broadcast_to_channel
-    ConversationChannel.broadcast_to(
-      conversation,
-      { html: ApplicationController.render(partial: "messages/message", locals: { message: self }) }
+    html = ApplicationController.render(
+      partial: "messages/message",
+      locals: { message: self, current_user: nil }
     )
+    ConversationChannel.broadcast_to(conversation, { html: html, sender_id: sender_id })
   end
 end
