@@ -16,10 +16,16 @@ export default class extends Controller {
         }
       }
     )
+
+    // Scroll to bottom after any turbo stream append
+    document.addEventListener("turbo:before-stream-render", this._onTurboStream = () => {
+      requestAnimationFrame(() => this.scrollToBottom())
+    })
   }
 
   disconnect() {
     this.channel?.unsubscribe()
+    document.removeEventListener("turbo:before-stream-render", this._onTurboStream)
   }
 
   scrollToBottom() {
@@ -28,5 +34,13 @@ export default class extends Controller {
 
   clearInput() {
     if (this.hasInputTarget) this.inputTarget.value = ""
+    requestAnimationFrame(() => this.scrollToBottom())
+  }
+
+  submitOnEnter(event) {
+    if (event.key === "Enter" && !event.shiftKey) {
+      event.preventDefault()
+      this.element.querySelector("form").requestSubmit()
+    }
   }
 }

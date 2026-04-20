@@ -24,8 +24,8 @@
     <%= link_to user_path(notification.actor.username) do %>
       <%= avatar_tag(notification.actor, size: :sm) %>
     <% end %>
-    <p class="text-sm mt-1">
-      <strong><%= notification.actor.display_name %></strong>
+    <p class="text-sm mt-1 flex items-center flex-wrap gap-1">
+      <strong><%= notification.actor.display_name %></strong><%= render "shared/pro_badge", user: notification.actor %>
       <% case notification.action %>
       <% when "liked" %>さんがあなたのツイートにいいねしました
       <% when "followed" %>さんがあなたをフォローしました

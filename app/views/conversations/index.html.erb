@@ -15,7 +15,7 @@
       <%= avatar_tag(other, size: :md) %>
       <div class="flex-1 min-w-0">
         <div class="flex items-center justify-between">
-          <span class="font-bold text-sm truncate"><%= other.display_name %></span>
+          <span class="font-bold text-sm truncate flex items-center gap-1"><%= other.display_name %><%= render "shared/pro_badge", user: other %></span>
           <% if (lm = conversation.last_message) %>
             <span class="text-xs text-gray-400"><%= relative_time(lm.created_at) %></span>
           <% end %>
