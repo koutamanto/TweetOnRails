@@ -1,7 +1,8 @@
 <%= turbo_frame_tag "tweet_form" do %>
   <div class="border-b border-gray-100 p-4">
+    <% max_chars = current_user&.plan == "pro" ? 500 : 280 %>
     <%= form_with model: tweet, url: tweets_path,
-          data: { controller: "tweet-composer", turbo_frame: "_top" },
+          data: { controller: "tweet-composer", "tweet-composer-max-length-value": max_chars, turbo_frame: "_top" },
           class: "flex gap-3" do |f| %>
       <div class="flex-shrink-0"><%= avatar_tag(current_user, size: :md) %></div>
       <div class="flex-1 min-w-0">
@@ -25,7 +26,7 @@
             </label>
           </div>
           <div class="flex items-center gap-3">
-            <span class="text-sm text-gray-400" data-tweet-composer-target="counter">280</span>
+            <span class="text-sm text-gray-400" data-tweet-composer-target="counter"><%= max_chars %></span>
             <%= f.submit "ツイートする",
                   class: "bg-sky-500 hover:bg-sky-600 text-white font-bold px-5 py-2 rounded-full text-sm transition-colors disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer",
                   data: { tweet_composer_target: "submitBtn" } %>

@@ -1,19 +1,35 @@
-<div class="min-h-screen flex items-center justify-center px-6">
-  <div class="w-full max-w-sm">
-    <div class="mb-8 text-center">
+<div class="min-h-screen flex items-center justify-center px-6 bg-gray-50">
+  <div class="w-full max-w-sm bg-white rounded-2xl shadow-sm border border-gray-200 p-8">
+    <div class="text-center mb-6">
       <%= render "shared/robin_logo", size_class: "w-10 h-10", color_class: "text-sky-500", extra_classes: "mx-auto mb-4" %>
       <h1 class="text-2xl font-bold">新しいパスワードを設定</h1>
     </div>
 
+    <%= render "shared/flash" %>
+
+    <% if resource.errors.any? %>
+      <div class="mb-4 bg-red-50 border border-red-200 rounded-xl p-3 text-sm text-red-700">
+        <ul class="space-y-0.5">
+          <% resource.errors.full_messages.each do |msg| %>
+            <li>・ <%= msg %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
     <%= form_with model: resource, as: resource_name, url: password_path(resource_name), method: :put, class: "space-y-4", data: { turbo: false } do |f| %>
       <%= f.hidden_field :reset_password_token %>
       <div>
-        <%= f.password_field :password, autofocus: true, placeholder: "新しいパスワード（6文字以上）",
-              class: "w-full px-4 py-3 border border-gray-300 rounded-lg text-sm focus:border-sky-500 focus:outline-none focus:ring-2 focus:ring-sky-500/20 transition" %>
+        <label class="block text-sm font-medium text-gray-700 mb-1">新しいパスワード</label>
+        <%= f.password_field :password, autofocus: true, placeholder: "6文字以上",
+              class: "w-full px-4 py-3 border border-gray-300 rounded-xl text-sm focus:border-sky-500 focus:outline-none focus:ring-2 focus:ring-sky-500/20 transition",
+              autocomplete: "new-password" %>
       </div>
       <div>
-        <%= f.password_field :password_confirmation, placeholder: "パスワード（確認）",
-              class: "w-full px-4 py-3 border border-gray-300 rounded-lg text-sm focus:border-sky-500 focus:outline-none focus:ring-2 focus:ring-sky-500/20 transition" %>
+        <label class="block text-sm font-medium text-gray-700 mb-1">パスワード（確認）</label>
+        <%= f.password_field :password_confirmation, placeholder: "もう一度入力",
+              class: "w-full px-4 py-3 border border-gray-300 rounded-xl text-sm focus:border-sky-500 focus:outline-none focus:ring-2 focus:ring-sky-500/20 transition",
+              autocomplete: "new-password" %>
       </div>
       <%= f.submit "パスワードを変更", class: "w-full bg-sky-500 hover:bg-sky-600 text-white font-bold py-3 rounded-full text-sm transition-colors cursor-pointer" %>
     <% end %>

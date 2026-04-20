@@ -19,8 +19,9 @@ class SubscriptionsController < ApplicationController
       cancel_url: pricing_url,
       allow_promotion_codes: true,
       subscription_data: {
-        metadata: { user_id: current_user.id }
-      }
+        metadata: { user_id: current_user.id, type: "robin_pro" }
+      },
+      metadata: { type: "robin_pro", user_id: current_user.id.to_s }
     )
 
     redirect_to session.url, allow_other_host: true
@@ -29,8 +30,27 @@ class SubscriptionsController < ApplicationController
   end
 
   def success
-    flash[:notice] = "🎉 Robin Proへようこそ！すべてのプレミアム機能が有効になりました。"
-    redirect_to root_path
+    if params[:session_id].present?
+      begin
+        stripe_session = Stripe::Checkout::Session.retrieve(params[:session_id])
+        if stripe_session.subscription.present?
+          sub = Stripe::Subscription.retrieve(stripe_session.subscription)
+          price_id = sub.items.data.first&.price&.id
+          if [ENV["STRIPE_PRO_MONTHLY_PRICE_ID"], ENV["STRIPE_PRO_YEARLY_PRICE_ID"]].include?(price_id)
+            current_user.update!(
+              plan: "pro",
+              subscription_status: sub.status,
+              stripe_subscription_id: sub.id,
+              stripe_customer_id: stripe_session.customer,
+              subscription_current_period_end: Time.at(sub.current_period_end)
+            )
+          end
+        end
+      rescue Stripe::StripeError => e
+        Rails.logger.error "Pro activation error: #{e.message}"
+      end
+    end
+    redirect_to root_path, notice: "Robin Proへようこそ！すべてのプレミアム機能が有効になりました。"
   end
 
   def portal

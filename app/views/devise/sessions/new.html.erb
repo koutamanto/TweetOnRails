@@ -7,33 +7,53 @@
       <div class="lg:hidden mb-8">
         <%= render "shared/robin_logo", size_class: "w-10 h-10", color_class: "text-sky-500" %>
       </div>
-      <h1 class="text-3xl font-bold mb-8">Robinにログイン</h1>
+      <h1 class="text-3xl font-bold mb-6">Robin にログイン</h1>
+
+      <%= render "shared/flash" %>
+
+      <% if resource.errors.any? %>
+        <div class="mb-4 flex items-start gap-3 bg-red-50 border border-red-200 rounded-xl px-4 py-3 text-sm text-red-700">
+          <svg class="w-4 h-4 text-red-500 flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z"/>
+          </svg>
+          <div>
+            <p class="font-semibold mb-0.5">ログインできませんでした</p>
+            <ul class="space-y-0.5">
+              <% resource.errors.full_messages.each do |msg| %>
+                <li>・ <%= msg %></li>
+              <% end %>
+            </ul>
+          </div>
+        </div>
+      <% end %>
 
       <%= form_with model: resource, as: resource_name, url: session_path(resource_name), class: "space-y-4", data: { turbo: false } do |f| %>
         <div>
-          <%= f.email_field :email, autofocus: true, placeholder: "メールアドレス",
-                class: "w-full px-4 py-3 border border-gray-300 rounded-lg text-sm focus:border-sky-500 focus:outline-none focus:ring-2 focus:ring-sky-500/20 transition" %>
+          <label class="block text-sm font-medium text-gray-700 mb-1">メールアドレス</label>
+          <%= f.email_field :email, autofocus: true, placeholder: "you@example.com",
+                class: "w-full px-4 py-3 border border-gray-300 rounded-xl text-sm focus:border-sky-500 focus:outline-none focus:ring-2 focus:ring-sky-500/20 transition" %>
         </div>
         <div>
-          <%= f.password_field :password, placeholder: "パスワード",
-                class: "w-full px-4 py-3 border border-gray-300 rounded-lg text-sm focus:border-sky-500 focus:outline-none focus:ring-2 focus:ring-sky-500/20 transition" %>
+          <div class="flex items-center justify-between mb-1">
+            <label class="block text-sm font-medium text-gray-700">パスワード</label>
+            <%= link_to "お忘れですか？", new_user_password_path, class: "text-xs text-sky-500 hover:underline" %>
+          </div>
+          <%= f.password_field :password, placeholder: "••••••••",
+                class: "w-full px-4 py-3 border border-gray-300 rounded-xl text-sm focus:border-sky-500 focus:outline-none focus:ring-2 focus:ring-sky-500/20 transition" %>
         </div>
         <% if devise_mapping.rememberable? %>
           <div class="flex items-center gap-2">
-            <%= f.check_box :remember_me, class: "rounded" %>
-            <%= f.label :remember_me, "ログイン状態を保持", class: "text-sm text-gray-600" %>
+            <%= f.check_box :remember_me, class: "rounded border-gray-300 text-sky-500 focus:ring-sky-500" %>
+            <label class="text-sm text-gray-600 cursor-pointer">ログイン状態を保持</label>
           </div>
         <% end %>
-        <%= f.submit "ログイン", class: "w-full bg-sky-500 hover:bg-sky-600 text-white font-bold py-3 rounded-full text-sm transition-colors cursor-pointer" %>
+        <%= f.submit "ログイン", class: "w-full bg-sky-500 hover:bg-sky-600 text-white font-bold py-3 rounded-full text-sm transition-colors cursor-pointer mt-2" %>
       <% end %>
 
-      <div class="mt-4 text-center">
-        <%= link_to "パスワードをお忘れですか？", new_user_password_path, class: "text-sm text-sky-500 hover:underline" %>
-      </div>
-
-      <div class="mt-8 pt-6 border-t border-gray-200 text-center">
-        <p class="text-sm text-gray-600 mb-4">アカウントをお持ちでないですか？</p>
-        <%= link_to "新規登録", new_user_registration_path, class: "border-2 border-sky-500 text-sky-500 hover:bg-sky-50 font-bold py-3 px-8 rounded-full text-sm transition-colors inline-block" %>
+      <div class="mt-8 pt-6 border-t border-gray-100 text-center">
+        <p class="text-sm text-gray-500 mb-3">アカウントをお持ちでないですか？</p>
+        <%= link_to "新規登録（無料）", new_user_registration_path,
+              class: "block w-full border-2 border-sky-500 text-sky-600 hover:bg-sky-50 font-bold py-2.5 rounded-full text-sm transition-colors text-center" %>
       </div>
     </div>
   </div>
