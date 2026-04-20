@@ -31,7 +31,18 @@ export default class extends Controller {
   }
 
   previewMedia(event) {
+    const MAX_FILE_SIZE = 10 * 1024 * 1024 // 10MB
     const files = Array.from(event.target.files)
+    const oversized = files.filter(f => f.size > MAX_FILE_SIZE)
+
+    if (oversized.length > 0) {
+      alert(`ファイルサイズは10MB以内にしてください（${oversized.map(f => f.name).join(", ")}）`)
+      event.target.value = ""
+      this.mediaPreviewTarget.innerHTML = ""
+      this.mediaPreviewTarget.classList.add("hidden")
+      return
+    }
+
     this.mediaPreviewTarget.innerHTML = ""
     this.mediaPreviewTarget.classList.toggle("hidden", files.length === 0)
 

@@ -14,6 +14,7 @@ class Tweet < ApplicationRecord
 
   validates :body, presence: true, unless: :retweet?
   validate :body_within_plan_limit, unless: :retweet?
+  validate :media_within_size_limit
 
   scope :original, -> { where(original_tweet_id: nil) }
   scope :top_level, -> { where(parent_tweet_id: nil) }
@@ -43,6 +44,12 @@ class Tweet < ApplicationRecord
   end
 
   private
+
+  def media_within_size_limit
+    media.each do |file|
+      errors.add(:media, "のファイルサイズは10MB以内にしてください") if file.blob.byte_size > 10.megabytes
+    end
+  end
 
   def body_within_plan_limit
     return unless body.present? && user.present?
