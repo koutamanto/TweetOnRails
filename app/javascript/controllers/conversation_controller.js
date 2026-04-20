@@ -32,7 +32,8 @@ export default class extends Controller {
     this.messagesTarget.scrollTop = this.messagesTarget.scrollHeight
   }
 
-  clearInput() {
+  handleSubmitEnd(event) {
+    if (!event.detail.success) return
     if (this.hasInputTarget) this.inputTarget.value = ""
     requestAnimationFrame(() => this.scrollToBottom())
   }
