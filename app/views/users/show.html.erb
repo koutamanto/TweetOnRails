@@ -38,7 +38,10 @@
     <% end %>
   </div>
 
-  <h2 class="font-bold text-xl"><%= @user.display_name %></h2>
+  <div class="flex items-center gap-1.5">
+    <h2 class="font-bold text-xl"><%= @user.display_name %></h2>
+    <%= render "shared/pro_badge", user: @user %>
+  </div>
   <p class="text-gray-500 text-sm mb-2">@<%= @user.username %></p>
   <% if @user.bio.present? %>
     <p class="text-[15px] mb-3"><%= @user.bio %></p>

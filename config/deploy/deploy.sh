@@ -6,6 +6,9 @@ IMAGE_NAME="tweeton-rails"
 CONTAINER_NAME="tweeton-rails"
 MASTER_KEY=$(cat "$APP_DIR/config/master.key")
 
+# Load Stripe and other secrets
+[ -f /root/.env.robin ] && source /root/.env.robin
+
 cd "$APP_DIR"
 
 echo ">>> Pulling latest code..."
@@ -26,6 +29,11 @@ docker run -d \
     -e RAILS_MASTER_KEY="$MASTER_KEY" \
     -e RAILS_LOG_TO_STDOUT=true \
     -e RAILS_SERVE_STATIC_FILES=true \
+    -e STRIPE_SECRET_KEY="${STRIPE_SECRET_KEY}" \
+    -e STRIPE_PUBLISHABLE_KEY="${STRIPE_PUBLISHABLE_KEY}" \
+    -e STRIPE_WEBHOOK_SECRET="${STRIPE_WEBHOOK_SECRET}" \
+    -e STRIPE_PRO_MONTHLY_PRICE_ID="${STRIPE_PRO_MONTHLY_PRICE_ID}" \
+    -e STRIPE_PRO_YEARLY_PRICE_ID="${STRIPE_PRO_YEARLY_PRICE_ID}" \
     -v "$APP_DIR/storage:/rails/storage" \
     --restart always \
     "$IMAGE_NAME"

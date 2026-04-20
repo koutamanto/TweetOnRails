@@ -15,8 +15,9 @@
     <% end %>
 
     <div class="flex items-center gap-1 flex-wrap">
-      <%= link_to user_path(display_tweet.user.username), class: "font-bold hover:underline text-sm" do %>
+      <%= link_to user_path(display_tweet.user.username), class: "font-bold hover:underline text-sm flex items-center gap-1" do %>
         <%= display_tweet.user.display_name %>
+        <%= render "shared/pro_badge", user: display_tweet.user %>
       <% end %>
       <span class="text-gray-500 text-sm">@<%= display_tweet.user.username %></span>
       <span class="text-gray-400">·</span>

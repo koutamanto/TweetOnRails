@@ -18,6 +18,7 @@ gem "kaminari"
 gem "devise"
 gem "bcrypt", "~> 3.1.7"
 gem "image_processing", "~> 1.2"
+gem "stripe", "~> 12.0"
 
 group :development, :test do
   gem "debug", platforms: %i[ mri windows ]

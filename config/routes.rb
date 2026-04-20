@@ -42,6 +42,16 @@ Rails.application.routes.draw do
   namespace :settings do
     get  'profile', to: 'profile#profile'
     patch 'profile', to: 'profile#update_profile'
+    get  'billing', to: 'billing#show'
+  end
+
+  get  'pricing', to: 'subscriptions#pricing', as: :pricing
+  post 'subscriptions', to: 'subscriptions#create', as: :subscriptions
+  get  'subscriptions/success', to: 'subscriptions#success', as: :success_subscriptions
+  get  'billing/portal', to: 'subscriptions#portal', as: :billing_portal
+
+  namespace :webhooks do
+    post 'stripe', to: 'stripe#receive'
   end
 
   get "up" => "rails/health#show", as: :rails_health_check

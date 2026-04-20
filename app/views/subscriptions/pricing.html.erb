@@ -1,0 +1,170 @@
+<div class="min-h-screen bg-white">
+  <%# Header %>
+  <div class="border-b border-gray-100 px-6 py-4 flex items-center justify-between max-w-5xl mx-auto">
+    <%= link_to root_path, class: "flex items-center gap-2" do %>
+      <%= render "shared/robin_logo", size_class: "w-7 h-7", color_class: "text-sky-500" %>
+      <span class="font-bold text-lg">Robin</span>
+    <% end %>
+    <% if user_signed_in? && current_user.pro? %>
+      <span class="text-sm text-amber-600 font-semibold flex items-center gap-1">
+        <%= render "shared/pro_badge", user: current_user %>
+        Robin Pro 有効
+      </span>
+    <% end %>
+  </div>
+
+  <div class="max-w-4xl mx-auto px-6 py-16">
+    <%# Hero %>
+    <div class="text-center mb-14">
+      <h1 class="text-4xl font-extrabold mb-4 tracking-tight">Robin Pro で<br class="sm:hidden">もっと自由に</h1>
+      <p class="text-gray-500 text-lg max-w-lg mx-auto">より長いツイート、プロフィールバッジ、すべての人へのDM。<br>あなたの発信力を最大化しましょう。</p>
+    </div>
+
+    <%# Plans grid %>
+    <div class="grid sm:grid-cols-2 gap-6 max-w-2xl mx-auto mb-10">
+
+      <%# Free %>
+      <div class="border border-gray-200 rounded-2xl p-7">
+        <div class="mb-6">
+          <p class="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-1">無料</p>
+          <div class="flex items-end gap-1">
+            <span class="text-4xl font-extrabold">¥0</span>
+            <span class="text-gray-400 mb-1">/月</span>
+          </div>
+        </div>
+        <ul class="space-y-3 text-sm text-gray-600 mb-8">
+          <li class="flex items-center gap-2">
+            <svg class="w-4 h-4 text-gray-400 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+            ツイート 280文字
+          </li>
+          <li class="flex items-center gap-2">
+            <svg class="w-4 h-4 text-gray-400 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+            自己紹介 160文字
+          </li>
+          <li class="flex items-center gap-2">
+            <svg class="w-4 h-4 text-gray-400 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+            フォロー・リプライ
+          </li>
+          <li class="flex items-center gap-2 text-gray-300">
+            <svg class="w-4 h-4 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+            プロバッジなし
+          </li>
+          <li class="flex items-center gap-2 text-gray-300">
+            <svg class="w-4 h-4 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+            誰にでもDM不可
+          </li>
+        </ul>
+        <% if user_signed_in? && !current_user.pro? %>
+          <div class="w-full text-center text-sm text-gray-400 py-2.5">現在のプラン</div>
+        <% elsif !user_signed_in? %>
+          <%= link_to "無料で始める", new_user_registration_path, class: "block w-full text-center border border-gray-300 hover:bg-gray-50 font-semibold py-2.5 rounded-full text-sm transition-colors" %>
+        <% end %>
+      </div>
+
+      <%# Pro %>
+      <div class="border-2 border-sky-500 rounded-2xl p-7 relative shadow-lg shadow-sky-100">
+        <div class="absolute -top-3 left-1/2 -translate-x-1/2">
+          <span class="bg-sky-500 text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wide">おすすめ</span>
+        </div>
+
+        <div class="mb-1">
+          <p class="text-sm font-semibold text-sky-600 uppercase tracking-wide mb-1">Robin Pro</p>
+        </div>
+
+        <%# Toggle monthly / yearly %>
+        <div id="pricing-toggle" data-controller="pricing-toggle">
+          <div class="flex bg-gray-100 rounded-full p-1 mb-4 w-fit gap-1">
+            <button data-action="click->pricing-toggle#showMonthly" data-pricing-toggle-target="monthlyBtn"
+              class="text-xs font-semibold px-3 py-1 rounded-full transition-colors bg-white shadow text-gray-900">
+              月払い
+            </button>
+            <button data-action="click->pricing-toggle#showYearly" data-pricing-toggle-target="yearlyBtn"
+              class="text-xs font-semibold px-3 py-1 rounded-full transition-colors text-gray-500">
+              年払い <span class="text-green-600">−17%</span>
+            </button>
+          </div>
+
+          <div data-pricing-toggle-target="monthlyPrice">
+            <div class="flex items-end gap-1 mb-6">
+              <span class="text-4xl font-extrabold">¥980</span>
+              <span class="text-gray-400 mb-1">/月</span>
+            </div>
+          </div>
+          <div data-pricing-toggle-target="yearlyPrice" class="hidden">
+            <div class="flex items-end gap-1 mb-1">
+              <span class="text-4xl font-extrabold">¥9,800</span>
+              <span class="text-gray-400 mb-1">/年</span>
+            </div>
+            <p class="text-green-600 text-xs font-semibold mb-5">¥1,960お得（2ヶ月分無料）</p>
+          </div>
+        </div>
+
+        <ul class="space-y-3 text-sm text-gray-700 mb-8">
+          <li class="flex items-center gap-2">
+            <svg class="w-4 h-4 text-sky-500 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+            <strong>ツイート 500文字</strong>（無料の1.8倍）
+          </li>
+          <li class="flex items-center gap-2">
+            <svg class="w-4 h-4 text-sky-500 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+            <strong>自己紹介 320文字</strong>
+          </li>
+          <li class="flex items-center gap-2">
+            <svg class="w-4 h-4 text-sky-500 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+            <span class="flex items-center gap-1">
+              <svg class="w-4 h-4 text-amber-400" viewBox="0 0 24 24">
+                <path fill="currentColor" d="M12 2L3 6.5V12c0 5.25 3.83 9.54 9 10.93C17.17 21.54 21 17.25 21 12V6.5L12 2Z"/>
+                <path fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" d="M8.5 12l2.5 2.5 4.5-5"/>
+              </svg>
+              <strong>金色プロバッジ</strong>表示
+            </span>
+          </li>
+          <li class="flex items-center gap-2">
+            <svg class="w-4 h-4 text-sky-500 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+            誰にでもDM送信可能
+          </li>
+          <li class="flex items-center gap-2">
+            <svg class="w-4 h-4 text-sky-500 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+            「おすすめユーザー」で優先表示
+          </li>
+        </ul>
+
+        <% if user_signed_in? && current_user.pro? %>
+          <div class="w-full text-center text-sm text-amber-600 font-semibold py-2.5 flex items-center justify-center gap-1">
+            <%= render "shared/pro_badge", user: current_user %>
+            ご利用中
+          </div>
+        <% else %>
+          <div data-pricing-toggle-target="monthlyForm">
+            <%= form_with url: subscriptions_path, method: :post do |f| %>
+              <%= f.hidden_field :interval, value: "month" %>
+              <%= f.submit "月払いで始める", class: "w-full bg-sky-500 hover:bg-sky-600 text-white font-bold py-3 rounded-full text-sm transition-colors cursor-pointer" %>
+            <% end %>
+          </div>
+          <div data-pricing-toggle-target="yearlyForm" class="hidden">
+            <%= form_with url: subscriptions_path, method: :post do |f| %>
+              <%= f.hidden_field :interval, value: "year" %>
+              <%= f.submit "年払いで始める（2ヶ月無料）", class: "w-full bg-sky-500 hover:bg-sky-600 text-white font-bold py-3 rounded-full text-sm transition-colors cursor-pointer" %>
+            <% end %>
+          </div>
+          <p class="text-xs text-gray-400 text-center mt-3">いつでもキャンセル可能 · Stripe で安全に決済</p>
+        <% end %>
+      </div>
+    </div>
+
+    <%# Trust signals %>
+    <div class="flex flex-wrap justify-center gap-6 text-sm text-gray-400">
+      <span class="flex items-center gap-1.5">
+        <svg class="w-4 h-4 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+        Stripe で安全に決済
+      </span>
+      <span class="flex items-center gap-1.5">
+        <svg class="w-4 h-4 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+        いつでもキャンセル可能
+      </span>
+      <span class="flex items-center gap-1.5">
+        <svg class="w-4 h-4 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+        即時アクティベート
+      </span>
+    </div>
+  </div>
+</div>

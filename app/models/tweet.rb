@@ -12,7 +12,8 @@ class Tweet < ApplicationRecord
 
   has_many_attached :media
 
-  validates :body, presence: true, length: { maximum: 280 }, unless: :retweet?
+  validates :body, presence: true, unless: :retweet?
+  validate :body_within_plan_limit, unless: :retweet?
 
   scope :original, -> { where(original_tweet_id: nil) }
   scope :top_level, -> { where(parent_tweet_id: nil) }
@@ -42,6 +43,12 @@ class Tweet < ApplicationRecord
   end
 
   private
+
+  def body_within_plan_limit
+    return unless body.present? && user.present?
+    limit = user.tweet_char_limit
+    errors.add(:body, "は#{limit}文字以内で入力してください") if body.length > limit
+  end
 
   def create_mention_notifications
     return unless body.present?

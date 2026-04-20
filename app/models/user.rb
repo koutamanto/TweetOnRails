@@ -1,4 +1,6 @@
 class User < ApplicationRecord
+  include Subscribable
+
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable,
          :confirmable
