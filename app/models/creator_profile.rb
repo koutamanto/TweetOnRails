@@ -26,7 +26,10 @@ class CreatorProfile < ApplicationRecord
     account = Stripe::Account.create(
       type: "express",
       country: "JP",
-      capabilities: { transfers: { requested: true } }
+      capabilities: {
+        card_payments: { requested: true },
+        transfers:     { requested: true }
+      }
     )
     update!(stripe_account_id: account.id)
     stripe_account_id
@@ -34,6 +37,7 @@ class CreatorProfile < ApplicationRecord
 
   def onboarding_url(refresh_url:, return_url:)
     create_stripe_account! unless stripe_account_id.present?
+    ensure_card_payments_capability!
     link = Stripe::AccountLink.create(
       account: stripe_account_id,
       refresh_url: refresh_url,
@@ -46,5 +50,17 @@ class CreatorProfile < ApplicationRecord
   def stripe_dashboard_url
     return nil unless payout_enabled?
     Stripe::Account.create_login_link(stripe_account_id).url
+  end
+
+  private
+
+  def ensure_card_payments_capability!
+    return unless stripe_account_id.present?
+    account = Stripe::Account.retrieve(stripe_account_id)
+    return if account.capabilities&.card_payments.present?
+    Stripe::Account.update(stripe_account_id,
+      capabilities: { card_payments: { requested: true }, transfers: { requested: true } })
+  rescue Stripe::StripeError
+    # Non-fatal — onboarding link creation continues
   end
 end
