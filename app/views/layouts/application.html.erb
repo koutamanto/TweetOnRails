@@ -16,10 +16,7 @@
         <%# Left Sidebar %>
         <aside class="hidden md:flex flex-col sticky top-0 h-screen w-[72px] xl:w-[275px] flex-shrink-0 px-2 xl:px-4 pt-1 border-r border-gray-100">
           <%= link_to root_path, class: "p-3 rounded-full hover:bg-gray-100 transition-colors w-fit mb-1" do %>
-            <svg class="w-7 h-7 text-sky-500" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M21 9C19 6 17 4 14 3.5C11 3 9 4.5 7 6.5C5 7.5 3 9 2 11C1.5 13 2.5 15 4 16.5C6 18 9 19 12 18.5C15 18 17.5 16.5 19 14.5C21 12.5 21.5 10.5 21 9Z"/>
-              <path d="M21 9L24 7.5L24 10.5Z"/>
-            </svg>
+            <%= render "shared/robin_logo", size_class: "w-7 h-7", color_class: "text-sky-500" %>
           <% end %>
 
           <nav class="flex flex-col gap-0.5">

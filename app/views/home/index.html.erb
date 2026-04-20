@@ -13,10 +13,7 @@
 <% if @tweets.empty? %>
   <div class="text-center py-16 px-4">
     <div class="w-16 h-16 bg-sky-50 rounded-full flex items-center justify-center mx-auto mb-4">
-      <svg class="w-8 h-8 text-sky-400" viewBox="0 0 24 24" fill="currentColor">
-        <path d="M21 9C19 6 17 4 14 3.5C11 3 9 4.5 7 6.5C5 7.5 3 9 2 11C1.5 13 2.5 15 4 16.5C6 18 9 19 12 18.5C15 18 17.5 16.5 19 14.5C21 12.5 21.5 10.5 21 9Z"/>
-        <path d="M21 9L24 7.5L24 10.5Z"/>
-      </svg>
+      <%= render "shared/robin_logo", size_class: "w-8 h-8", color_class: "text-sky-400" %>
     </div>
     <h2 class="font-bold text-2xl mb-2">ようこそ！</h2>
     <p class="text-gray-500 mb-6">フォローしているユーザーのツイートがここに表示されます。<br>ユーザーを探してフォローしてみましょう。</p>
