@@ -15,4 +15,13 @@ class Notification < ApplicationRecord
   def unread?
     read_at.nil?
   end
+
+  after_create_commit :push_badge_count
+
+  private
+
+  def push_badge_count
+    count = user.notifications.where(read_at: nil).count
+    UserChannel.broadcast_to(user, { type: "notif_count", count: count })
+  end
 end

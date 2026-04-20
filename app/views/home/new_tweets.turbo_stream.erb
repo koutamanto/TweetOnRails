@@ -1,0 +1,3 @@
+<% @tweets.each do |tweet| %>
+  <%= turbo_stream.prepend "tweets", partial: "shared/tweet_card", locals: { tweet: tweet, current_user: current_user } %>
+<% end %>

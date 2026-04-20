@@ -53,7 +53,7 @@
 
   <body class="bg-white text-gray-900 antialiased">
     <% if user_signed_in? %>
-      <div class="flex min-h-screen max-w-7xl mx-auto">
+      <div class="flex min-h-screen max-w-7xl mx-auto" data-controller="realtime">
         <%# Left Sidebar %>
         <aside class="hidden md:flex flex-col sticky top-0 h-screen w-[72px] xl:w-[275px] flex-shrink-0 px-2 xl:px-4 pt-1 border-r border-gray-100">
           <%= link_to root_path, class: "p-3 rounded-full hover:bg-gray-100 transition-colors w-fit mb-1" do %>
@@ -80,9 +80,7 @@
                 <svg class="w-[26px] h-[26px]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="<%= current_page?(notifications_path) ? 2.5 : 2 %>">
                   <path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0"/>
                 </svg>
-                <% if @unread_notifications_count.to_i > 0 %>
-                  <span class="absolute -top-1 -right-1 bg-sky-500 text-white text-[10px] rounded-full min-w-[16px] h-4 flex items-center justify-center px-0.5"><%= @unread_notifications_count > 99 ? "99+" : @unread_notifications_count %></span>
-                <% end %>
+                <span data-realtime-target="notifBadge" class="absolute -top-1 -right-1 bg-sky-500 text-white text-[10px] rounded-full min-w-[16px] h-4 flex items-center justify-center px-0.5<%= @unread_notifications_count.to_i > 0 ? '' : ' hidden' %>"><%= @unread_notifications_count.to_i > 99 ? '99+' : @unread_notifications_count.to_i %></span>
               </span>
               <span class="text-xl hidden xl:block">通知</span>
             <% end %>
@@ -92,9 +90,7 @@
                 <svg class="w-[26px] h-[26px]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="<%= current_page?(conversations_path) ? 2.5 : 2 %>">
                   <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75"/>
                 </svg>
-                <% if @unread_messages_count.to_i > 0 %>
-                  <span class="absolute -top-1 -right-1 bg-sky-500 text-white text-[10px] rounded-full min-w-[16px] h-4 flex items-center justify-center px-0.5"><%= @unread_messages_count > 99 ? "99+" : @unread_messages_count %></span>
-                <% end %>
+                <span data-realtime-target="dmBadge" class="absolute -top-1 -right-1 bg-sky-500 text-white text-[10px] rounded-full min-w-[16px] h-4 flex items-center justify-center px-0.5<%= @unread_messages_count.to_i > 0 ? '' : ' hidden' %>"><%= @unread_messages_count.to_i > 99 ? '99+' : @unread_messages_count.to_i %></span>
               </span>
               <span class="text-xl hidden xl:block">メッセージ</span>
             <% end %>
@@ -251,14 +247,13 @@
           <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
             <path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0"/>
           </svg>
-          <% if @unread_notifications_count.to_i > 0 %>
-            <span class="absolute top-1 right-6 bg-sky-500 w-2 h-2 rounded-full"></span>
-          <% end %>
+          <span data-realtime-target="notifDot" class="absolute top-1 right-6 bg-sky-500 w-2 h-2 rounded-full<%= @unread_notifications_count.to_i > 0 ? '' : ' hidden' %>"></span>
         <% end %>
-        <%= link_to conversations_path, class: "flex-1 flex flex-col items-center py-2 #{current_page?(conversations_path) ? 'text-sky-500' : 'text-gray-500'}" do %>
+        <%= link_to conversations_path, class: "flex-1 flex flex-col items-center py-2 relative #{current_page?(conversations_path) ? 'text-sky-500' : 'text-gray-500'}" do %>
           <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
             <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75"/>
           </svg>
+          <span data-realtime-target="dmDot" class="absolute top-1 right-6 bg-sky-500 w-2 h-2 rounded-full<%= @unread_messages_count.to_i > 0 ? '' : ' hidden' %>"></span>
         <% end %>
         <%= link_to user_path(current_user.username), class: "flex-1 flex flex-col items-center py-2 #{controller_name == 'users' ? 'text-sky-500' : 'text-gray-500'}" do %>
           <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">

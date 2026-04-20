@@ -7,6 +7,7 @@ Rails.application.routes.draw do
   }
 
   root "home#index"
+  get "home/new_tweets", to: "home#new_tweets"
 
   get "explore", to: "explore#index"
   get "search", to: "search#index"

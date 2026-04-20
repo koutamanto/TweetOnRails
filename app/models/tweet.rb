@@ -22,6 +22,7 @@ class Tweet < ApplicationRecord
 
   after_create :create_mention_notifications
   after_create :create_reply_notification
+  after_create_commit :push_to_followers
 
   def retweet?
     original_tweet_id.present?
@@ -70,5 +71,12 @@ class Tweet < ApplicationRecord
     return unless parent_tweet.present?
     return if parent_tweet.user == user
     Notification.create(user: parent_tweet.user, actor: user, action: :replied, notifiable: self)
+  end
+
+  def push_to_followers
+    return if retweet? || reply?
+    user.followers.find_each do |follower|
+      TimelineChannel.broadcast_to(follower, { tweet_id: id })
+    end
   end
 end

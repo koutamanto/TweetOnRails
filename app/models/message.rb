@@ -15,4 +15,20 @@ class Message < ApplicationRecord
     )
     ConversationChannel.broadcast_to(conversation, { html: html, sender_id: sender_id })
   end
+
+  after_create_commit :push_dm_badge_to_recipient
+
+  private
+
+  def push_dm_badge_to_recipient
+    other = conversation.participants.where.not(id: sender_id).first
+    return unless other
+    unread = Message
+      .joins(conversation: :conversation_participants)
+      .where(conversation_participants: { user_id: other.id })
+      .where.not(sender_id: other.id)
+      .where(read_at: nil)
+      .count
+    UserChannel.broadcast_to(other, { type: "dm_count", count: unread })
+  end
 end
