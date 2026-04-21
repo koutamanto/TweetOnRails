@@ -1,1 +1,32 @@
-# See https://www.robotstxt.org/robotstxt.html for documentation on how to use the robots.txt file
+User-agent: *
+Allow: /
+Allow: /explore
+Allow: /search
+Allow: /pricing
+Allow: /tweets/
+Allow: /creators/
+
+# Block private/auth areas
+Disallow: /settings/
+Disallow: /notifications
+Disallow: /bookmarks
+Disallow: /conversations/
+Disallow: /creator/
+Disallow: /webhooks/
+Disallow: /push_subscriptions
+
+# Block Devise auth flows from indexing
+Disallow: /users/sign_in
+Disallow: /users/sign_up
+Disallow: /users/password
+Disallow: /users/confirmation
+
+# Block pagination noise on timelines
+Disallow: /*?page=
+
+Sitemap: https://robin.katskouta.one/sitemap.xml
+
+# AI / LLM crawler resources
+# llms.txt: https://robin.katskouta.one/llms.txt
+# llms-full.txt: https://robin.katskouta.one/llms-full.txt
+# AI context: https://robin.katskouta.one/ai/context

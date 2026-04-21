@@ -1,5 +1,9 @@
 <%= turbo_frame_tag "follow_btn_#{user.id}" do %>
-  <% if current_user.following?(user) %>
+  <% if current_user.nil? %>
+    <%= link_to "フォロー", new_user_session_path,
+          data: { turbo_frame: "_top" },
+          class: "bg-gray-900 hover:bg-gray-700 text-white font-bold text-sm px-4 py-1.5 rounded-full transition-colors" %>
+  <% elsif current_user.following?(user) %>
     <%= button_to follow_path(user), method: :delete,
           class: "border border-gray-300 hover:border-red-300 hover:text-red-500 hover:bg-red-50 font-bold text-sm px-4 py-1.5 rounded-full transition-all",
           data: { "turbo-confirm": "フォローを解除しますか？" } do %>

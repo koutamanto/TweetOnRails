@@ -1,6 +1,13 @@
 <%= turbo_frame_tag "tweet_#{tweet.id}_bookmark" do %>
   <% bookmarked = tweet.bookmarked_by?(current_user) %>
-  <% if bookmarked %>
+  <% if current_user.nil? %>
+    <%= link_to new_user_session_path, data: { turbo_frame: "_top" },
+          class: "flex items-center gap-1.5 hover:text-sky-500 group transition-colors" do %>
+      <span class="p-1.5 rounded-full group-hover:bg-sky-100 transition-colors">
+        <svg class="w-[18px] h-[18px]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0111.186 0z"/></svg>
+      </span>
+    <% end %>
+  <% elsif bookmarked %>
     <%= button_to tweet_bookmark_path(tweet, current_user.bookmarks.find_by(tweet: tweet)), method: :delete,
           class: "flex items-center gap-1.5 text-sky-500 group transition-colors" do %>
       <span class="p-1.5 rounded-full group-hover:bg-sky-100 transition-colors">

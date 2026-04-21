@@ -34,14 +34,13 @@ module Subscribable
     if stripe_customer_id.present?
       begin
         customer = Stripe::Customer.retrieve(stripe_customer_id)
-        # If the customer was deleted or has a different email, recreate it
         if customer.deleted? || customer.email != email
           update_column(:stripe_customer_id, nil)
           return create_or_retrieve_stripe_customer!
         end
         customer
-      rescue Stripe::InvalidRequestError
-        # Customer doesn't exist in Stripe anymore — clear and recreate
+      rescue Stripe::StripeError => e
+        Rails.logger.warn "[Stripe] customer retrieve failed for user=#{id}: #{e.message} — recreating"
         update_column(:stripe_customer_id, nil)
         create_or_retrieve_stripe_customer!
       end

@@ -1,3 +1,45 @@
+<% display_tweet_seo = @tweet.retweet? ? @tweet.original_tweet : @tweet %>
+<% tweet_author = display_tweet_seo.user %>
+<% tweet_body_plain = display_tweet_seo.body.to_s.gsub(/<[^>]+>/, "").truncate(160) %>
+<% content_for :seo_title, "@#{tweet_author.username}: #{display_tweet_seo.body.to_s.truncate(60)}" %>
+<% content_for :seo_desc, tweet_body_plain %>
+<% content_for :seo_og_type, "article" %>
+<% content_for :seo_image, absolute_avatar_url(tweet_author) %>
+<% content_for :seo_canonical, "https://robin.katskouta.one/tweets/#{display_tweet_seo.id}" %>
+<% content_for :structured_data do %>
+<%= breadcrumb_json_ld([
+  {name: "ホーム", url: "https://robin.katskouta.one/"},
+  {name: "@#{tweet_author.username}", url: "https://robin.katskouta.one/#{tweet_author.username}"},
+  {name: display_tweet_seo.body.to_s.truncate(40)}
+]) %>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SocialMediaPosting",
+  "headline": <%= display_tweet_seo.body.to_s.truncate(110).to_json.html_safe %>,
+  "text": <%= display_tweet_seo.body.to_s.to_json.html_safe %>,
+  "datePublished": "<%= display_tweet_seo.created_at.iso8601 %>",
+  "url": "https://robin.katskouta.one/tweets/<%= display_tweet_seo.id %>",
+  "author": {
+    "@type": "Person",
+    "name": <%= tweet_author.display_name.to_json.html_safe %>,
+    "identifier": "@<%= tweet_author.username %>",
+    "url": "https://robin.katskouta.one/<%= tweet_author.username %>",
+    "image": "<%= absolute_avatar_url(tweet_author) %>"
+  },
+  "interactionStatistic": [
+    {"@type":"InteractionCounter","interactionType":"https://schema.org/LikeAction","userInteractionCount":<%= display_tweet_seo.likes_count %>},
+    {"@type":"InteractionCounter","interactionType":"https://schema.org/ShareAction","userInteractionCount":<%= display_tweet_seo.retweets_count %>},
+    {"@type":"InteractionCounter","interactionType":"https://schema.org/CommentAction","userInteractionCount":<%= display_tweet_seo.replies_count rescue 0 %>}
+  ],
+  "sharedContent": {
+    "@type": "WebPage",
+    "url": "https://robin.katskouta.one/tweets/<%= display_tweet_seo.id %>"
+  }
+}
+</script>
+<% end %>
+
 <div class="sticky top-0 bg-white/80 backdrop-blur-sm border-b border-gray-100 px-4 py-3 z-10 flex items-center gap-4">
   <%= link_to :back, class: "p-2 rounded-full hover:bg-gray-100 transition-colors -ml-2" do %>
     <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18"/></svg>
@@ -66,16 +108,25 @@
 
 <%# Reply form %>
 <div class="border-b border-gray-100 p-4">
-  <%= form_with model: Tweet.new, url: tweet_replies_path(display_tweet), class: "flex gap-3" do |f| %>
-    <div class="flex-shrink-0"><%= avatar_tag(current_user, size: :md) %></div>
-    <div class="flex-1">
-      <%= f.text_area :body, placeholder: "返信をツイート",
-            rows: 2,
-            class: "w-full resize-none border-0 outline-none text-base placeholder-gray-400 bg-transparent" %>
-      <div class="flex justify-end mt-2">
-        <%= f.submit "返信", class: "bg-sky-500 hover:bg-sky-600 text-white font-bold px-5 py-1.5 rounded-full text-sm transition-colors cursor-pointer" %>
+  <% if user_signed_in? %>
+    <%= form_with model: Tweet.new, url: tweet_replies_path(display_tweet), class: "flex gap-3" do |f| %>
+      <div class="flex-shrink-0"><%= avatar_tag(current_user, size: :md) %></div>
+      <div class="flex-1">
+        <%= f.text_area :body, placeholder: "返信をツイート",
+              rows: 2,
+              class: "w-full resize-none border-0 outline-none text-base placeholder-gray-400 bg-transparent" %>
+        <div class="flex justify-end mt-2">
+          <%= f.submit "返信", class: "bg-sky-500 hover:bg-sky-600 text-white font-bold px-5 py-1.5 rounded-full text-sm transition-colors cursor-pointer" %>
+        </div>
       </div>
-    </div>
+    <% end %>
+  <% else %>
+    <%= link_to new_user_session_path, class: "flex items-center gap-3 w-full text-gray-500 hover:text-sky-500 transition-colors group" do %>
+      <div class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center flex-shrink-0">
+        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"/></svg>
+      </div>
+      <span class="text-sm group-hover:underline">返信するにはログインしてください</span>
+    <% end %>
   <% end %>
 </div>
 

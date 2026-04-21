@@ -33,14 +33,17 @@ class Tweet < ApplicationRecord
   end
 
   def liked_by?(user)
+    return false if user.nil?
     likes.exists?(user: user)
   end
 
   def bookmarked_by?(user)
+    return false if user.nil?
     bookmarks.exists?(user: user)
   end
 
   def retweeted_by?(user)
+    return false if user.nil?
     retweets.exists?(user: user)
   end
 

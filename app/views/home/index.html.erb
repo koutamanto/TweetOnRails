@@ -1,19 +1,48 @@
-<div data-controller="timeline">
+<% unless user_signed_in? %>
+  <% content_for :seo_title, "最新のツイート" %>
+  <% content_for :seo_desc,  "Robinで今起きていることをリアルタイムでチェック。ツイート、フォロー、発見。日本のソーシャルネットワーク。" %>
+  <% content_for :seo_canonical, "https://robin.katskouta.one/" %>
+  <% content_for :structured_data do %>
+    <%= breadcrumb_json_ld([{name: "ホーム", url: "https://robin.katskouta.one/"}]) %>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "Robin",
+      "url": "https://robin.katskouta.one",
+      "description": "Robinで今起きていることをリアルタイムでチェック。ツイート、フォロー、発見。日本のソーシャルネットワーク。",
+      "inLanguage": "ja",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": {
+          "@type": "EntryPoint",
+          "urlTemplate": "https://robin.katskouta.one/search?q={search_term_string}"
+        },
+        "query-input": "required name=search_term_string"
+      }
+    }
+    </script>
+  <% end %>
+<% end %>
+
+<div data-controller="<%= user_signed_in? ? 'timeline' : '' %>">
   <div class="sticky top-0 bg-white/80 backdrop-blur-sm border-b border-gray-100 px-4 py-3 z-10">
-    <h1 class="font-bold text-xl">ホーム</h1>
+    <h1 class="font-bold text-xl"><%= user_signed_in? ? "ホーム" : "最新のツイート" %></h1>
   </div>
 
-  <div data-timeline-target="banner" class="hidden sticky top-[52px] z-10 flex justify-center py-2 pointer-events-none">
-    <button data-action="click->timeline#load"
-            class="pointer-events-auto bg-sky-500 hover:bg-sky-600 active:bg-sky-700 text-white text-sm font-bold px-5 py-2.5 rounded-full shadow-lg transition-all flex items-center gap-2">
-      <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
-        <path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
-      </svg>
-      <span data-timeline-target="count">0</span>件の新しいツイート
-    </button>
-  </div>
+  <% if user_signed_in? %>
+    <div data-timeline-target="banner" class="hidden sticky top-[52px] z-10 flex justify-center py-2 pointer-events-none">
+      <button data-action="click->timeline#load"
+              class="pointer-events-auto bg-sky-500 hover:bg-sky-600 active:bg-sky-700 text-white text-sm font-bold px-5 py-2.5 rounded-full shadow-lg transition-all flex items-center gap-2">
+        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+        </svg>
+        <span data-timeline-target="count">0</span>件の新しいツイート
+      </button>
+    </div>
 
-  <%= render "shared/compose", tweet: @tweet %>
+    <%= render "shared/compose", tweet: @tweet %>
+  <% end %>
 
   <div id="tweets">
     <% @tweets.each do |tweet| %>
@@ -26,9 +55,15 @@
       <div class="w-16 h-16 bg-sky-50 rounded-full flex items-center justify-center mx-auto mb-4">
         <%= render "shared/robin_logo", size_class: "w-8 h-8", color_class: "text-sky-400" %>
       </div>
-      <h2 class="font-bold text-2xl mb-2">ようこそ！</h2>
-      <p class="text-gray-500 mb-6">フォローしているユーザーのツイートがここに表示されます。<br>ユーザーを探してフォローしてみましょう。</p>
-      <%= link_to "ユーザーを探す", explore_path, class: "bg-sky-500 hover:bg-sky-600 text-white font-bold px-6 py-3 rounded-full transition-colors" %>
+      <% if user_signed_in? %>
+        <h2 class="font-bold text-2xl mb-2">ようこそ！</h2>
+        <p class="text-gray-500 mb-6">フォローしているユーザーのツイートがここに表示されます。<br>ユーザーを探してフォローしてみましょう。</p>
+        <%= link_to "ユーザーを探す", explore_path, class: "bg-sky-500 hover:bg-sky-600 text-white font-bold px-6 py-3 rounded-full transition-colors" %>
+      <% else %>
+        <h2 class="font-bold text-2xl mb-2">まだツイートがありません</h2>
+        <p class="text-gray-500 mb-6">最初のツイートを投稿してみましょう。</p>
+        <%= link_to "ログインして投稿する", new_user_session_path, class: "bg-sky-500 hover:bg-sky-600 text-white font-bold px-6 py-3 rounded-full transition-colors" %>
+      <% end %>
     </div>
   <% end %>
 

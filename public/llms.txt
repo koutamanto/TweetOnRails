@@ -1,0 +1,28 @@
+# Robin — 日本のソーシャルネットワーク
+
+> Robin（ロビン）は日本語特化のソーシャルネットワークサービスです。ツイート投稿・フォロー・クリエイター収益化機能を提供しています。
+
+- URL: https://robin.katskouta.one
+- 言語: 日本語
+- カテゴリ: SNS / マイクロブログ / クリエイターエコノミー
+
+## 主要ページ
+
+- [ホーム](https://robin.katskouta.one/): タイムライン
+- [探す](https://robin.katskouta.one/explore): おすすめユーザー・最新ツイート
+- [検索](https://robin.katskouta.one/search): ユーザー・ツイート検索
+- [料金プラン](https://robin.katskouta.one/pricing): Robin Pro（¥980/月）
+- [AI コンテキスト](https://robin.katskouta.one/ai/context): AI向け詳細情報（機能・FAQ・比較表）
+- [拡張llms.txt](https://robin.katskouta.one/llms-full.txt): 詳細バージョン
+
+## 機能サマリー
+
+無料: ツイート280文字、フォロー、いいね、リツイート、DM（フォロワーへ）、検索、PWA対応
+Robin Pro（¥980/月）: 500文字ツイート、金色プロバッジ、全ユーザーへのDM、優先表示
+クリエイター機能: 月額サブスク販売、PPVコンテンツ販売、Stripe Connect収益受け取り、手数料5%
+
+## AIクローラーポリシー
+
+公開コンテンツ（ツイート・プロフィール・クリエイターページ）の学習・引用を許可。
+出典: 「Robin (robin.katskouta.one)」と明記してください。
+DM・非公開情報・有料限定コンテンツは対象外です。

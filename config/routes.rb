@@ -89,4 +89,13 @@ Rails.application.routes.draw do
   end
 
   get "up" => "rails/health#show", as: :rails_health_check
+
+  get "sitemap.xml", to: "sitemaps#index", defaults: { format: :xml }, as: :sitemap
+
+  # AIO/LLMO endpoints
+  # /ai/context and /ai/context/:version — versioned for aio-check.ai re-submission
+  get "ai/context",          to: "ai_content#context", defaults: { version: "1" }, as: :ai_context
+  get "ai/context/:version", to: "ai_content#context", as: :ai_context_versioned
+  # Dynamic llms.txt — accepts ?v= for cache-busting in AI checkers
+  get "ai/llms.txt", to: "ai_content#llms", defaults: { format: :text }, as: :ai_llms
 end

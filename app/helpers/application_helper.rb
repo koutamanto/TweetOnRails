@@ -38,6 +38,8 @@ module ApplicationHelper
                  else "w-10 h-10"
                  end
 
+    return content_tag(:div, class: "#{size_class} rounded-full bg-gray-200 flex-shrink-0") {} if user.nil?
+
     if user.avatar.attached?
       image_tag url_for(user.avatar), class: "#{size_class} rounded-full object-cover flex-shrink-0"
     else
@@ -45,6 +47,10 @@ module ApplicationHelper
         content_tag(:span, user.display_name[0].upcase, class: "text-white font-bold #{size == :sm ? 'text-xs' : 'text-sm'}")
       end
     end
+  end
+
+  def stripe_test_mode?
+    defined?(STRIPE_TEST_MODE) && STRIPE_TEST_MODE
   end
 
   def nav_link(path, label, icon_html, badge: nil)

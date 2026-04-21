@@ -1,3 +1,43 @@
+<% content_for :seo_title, "#{@creator.display_name} — クリエイターページ" %>
+<% desc_parts = [@creator_profile.tagline.presence, @creator.bio.presence, "#{@subscriber_count}人がサポート · #{@posts.count}件の投稿"].compact %>
+<% content_for :seo_desc, desc_parts.join(" — ").truncate(160) %>
+<% content_for :seo_image, absolute_avatar_url(@creator) %>
+<% content_for :seo_canonical, "https://robin.katskouta.one/creators/#{@creator.username}" %>
+<% content_for :structured_data do %>
+<%= breadcrumb_json_ld([
+  {name: "ホーム", url: "https://robin.katskouta.one/"},
+  {name: "クリエイター", url: "https://robin.katskouta.one/explore"},
+  {name: @creator.display_name, url: "https://robin.katskouta.one/creators/#{@creator.username}"}
+]) %>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ProfilePage",
+  "mainEntity": {
+    "@type": "Person",
+    "name": <%= @creator.display_name.to_json.html_safe %>,
+    "alternateName": "@<%= @creator.username %>",
+    "url": "https://robin.katskouta.one/creators/<%= @creator.username %>",
+    "image": "<%= absolute_avatar_url(@creator) %>",
+    "description": <%= (@creator_profile.tagline.presence || @creator.bio.to_s).to_json.html_safe %>,
+    "interactionStatistic": [
+      {"@type":"InteractionCounter","interactionType":"https://schema.org/SubscribeAction","userInteractionCount":<%= @subscriber_count %>}
+    ]
+  }
+  <% if @creator_profile.has_subscription_plan? %>,
+  "offers": {
+    "@type": "Offer",
+    "name": <%= "#{@creator.display_name} サブスクリプション".to_json.html_safe %>,
+    "price": "<%= @creator_profile.subscription_price %>",
+    "priceCurrency": "JPY",
+    "priceSpecification": {"@type":"RecurringChargeSpecification","billingDuration":"P1M"},
+    "url": "https://robin.katskouta.one/creators/<%= @creator.username %>"
+  }
+  <% end %>
+}
+</script>
+<% end %>
+
 <%# Creator public profile page %>
 <div>
   <%# Cover image / gradient header %>

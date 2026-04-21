@@ -1,6 +1,23 @@
 <div class="px-4 py-6 max-w-2xl">
   <h1 class="text-xl font-bold mb-6">支払い・Stripe 設定</h1>
 
+  <%# Stripe test mode banner %>
+  <% if stripe_test_mode? %>
+    <div class="flex items-center gap-2 bg-amber-50 border border-amber-300 text-amber-800 rounded-xl px-4 py-3 mb-6 text-sm font-semibold">
+      <svg class="w-4 h-4 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z"/>
+      </svg>
+      Stripe テストモード稼働中 — 実際の決済は処理されません
+    </div>
+  <% end %>
+
+  <%# Error display %>
+  <% if @stripe_error %>
+    <div class="bg-red-50 border border-red-200 text-red-700 rounded-xl px-4 py-3 mb-6 text-sm">
+      Stripe エラー: <%= @stripe_error %>
+    </div>
+  <% end %>
+
   <%# Stripe Connect status %>
   <div class="border border-gray-200 rounded-xl p-5 mb-6">
     <div class="flex items-start gap-4">
@@ -44,8 +61,12 @@
         <p class="text-xs text-gray-400 mt-1">0 に設定するとサブスクリプションは無効になります</p>
       </div>
       <div class="flex items-center gap-3">
-        <%= f.check_box :accepting_subscribers, class: "w-4 h-4 text-purple-600 border-gray-300 rounded" %>
-        <label class="text-sm font-medium cursor-pointer">サブスクリプションを受け付ける</label>
+        <%= f.check_box :accepting_subscribers,
+              class: "w-4 h-4 text-purple-600 border-gray-300 rounded cursor-pointer",
+              id: "accepting_subscribers_toggle" %>
+        <label for="accepting_subscribers_toggle" class="text-sm font-medium cursor-pointer select-none">
+          サブスクリプションを受け付ける
+        </label>
       </div>
       <%= f.submit "設定を保存", class: "bg-gray-800 hover:bg-gray-900 text-white font-bold px-6 py-2.5 rounded-full text-sm transition-colors cursor-pointer" %>
     <% end %>

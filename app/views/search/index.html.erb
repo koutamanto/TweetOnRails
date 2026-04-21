@@ -1,3 +1,12 @@
+<% if @query.present? %>
+  <% content_for :seo_title, "「#{@query}」の検索結果" %>
+  <% content_for :seo_desc, "Robinで「#{@query}」を検索した結果。ツイート・ユーザーを検索できます。" %>
+<% else %>
+  <% content_for :seo_title, "検索" %>
+  <% content_for :seo_desc, "Robinでツイートやユーザーを検索しましょう。" %>
+<% end %>
+<% content_for :seo_canonical, "https://robin.katskouta.one/search#{@query.present? ? "?q=#{CGI.escape(@query)}" : ""}" %>
+
 <div class="sticky top-0 bg-white/80 backdrop-blur-sm border-b border-gray-100 px-4 py-3 z-10">
   <%= form_with url: search_path, method: :get, local: true do |f| %>
     <div class="relative">

@@ -1,5 +1,4 @@
 class ApplicationController < ActionController::Base
-  before_action :authenticate_user!
   before_action :set_unread_notifications_count, if: :user_signed_in?
   before_action :set_unread_messages_count, if: :user_signed_in?
 

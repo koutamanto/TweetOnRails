@@ -1,4 +1,6 @@
 class PushSubscriptionsController < ApplicationController
+  before_action :authenticate_user!
+
   def create
     sub = current_user.push_subscriptions.find_or_initialize_by(endpoint: params[:endpoint])
     sub.assign_attributes(p256dh: params[:p256dh], auth: params[:auth])

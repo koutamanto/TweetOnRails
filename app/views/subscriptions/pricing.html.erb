@@ -1,4 +1,59 @@
+<% content_for :seo_title, "Robin Pro — プレミアムプラン" %>
+<% content_for :seo_desc, "Robin Proで発信力を最大化。月額¥980から。500文字ツイート、プロバッジ、誰にでもDM送信可能。いつでもキャンセル可能。" %>
+<% content_for :seo_canonical, "https://robin.katskouta.one/pricing" %>
+<% content_for :structured_data do %>
+<%= breadcrumb_json_ld([
+  {name: "ホーム", url: "https://robin.katskouta.one/"},
+  {name: "Robin Pro プラン", url: "https://robin.katskouta.one/pricing"}
+]) %>
+<%= faq_json_ld([
+  {q: "Robin Proとは何ですか？", a: "Robin Proは月額¥980または年額¥9,800のプレミアムプランです。500文字ツイート、金色プロバッジ、誰にでもDM送信可能、おすすめユーザー欄での優先表示などの特典が含まれます。"},
+  {q: "無料プランとRobin Proの違いは何ですか？", a: "無料プランはツイート280文字・自己紹介160文字・フォロー&リプライが可能です。Robin Proはこれに加えて500文字ツイート、320文字自己紹介、金色プロバッジ、誰にでもDM送信、おすすめ優先表示が利用できます。"},
+  {q: "年払いはいくらですか？", a: "年払いは¥9,800です。月払い（¥980×12=¥11,760）と比べて約17%お得で、実質2ヶ月分が無料になります。"},
+  {q: "いつでもキャンセルできますか？", a: "はい、Robin Proはいつでもキャンセル可能です。Stripeのカスタマーポータルから簡単に解約手続きができます。"},
+  {q: "支払い方法は何が使えますか？", a: "Stripeを通じてクレジットカード（Visa、Mastercard、JCB、American Express）でお支払いいただけます。"},
+  {q: "プロバッジとは何ですか？", a: "Robin Proに加入すると名前の横に金色の盾バッジが表示されます。フォロワーへの信頼性アピールや認知度向上に役立ちます。"}
+]) %>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Product",
+  "name": "Robin Pro",
+  "description": "Robin Proで発信力を最大化。500文字ツイート、金色プロバッジ、誰にでもDM送信可能、おすすめユーザー優先表示。",
+  "brand": {"@type":"Brand","name":"Robin"},
+  "url": "https://robin.katskouta.one/pricing",
+  "offers": [
+    {
+      "@type": "Offer",
+      "name": "Robin Pro 月払い",
+      "price": "980",
+      "priceCurrency": "JPY",
+      "availability": "https://schema.org/InStock",
+      "priceSpecification": {"@type":"RecurringChargeSpecification","billingDuration":"P1M"},
+      "url": "https://robin.katskouta.one/pricing"
+    },
+    {
+      "@type": "Offer",
+      "name": "Robin Pro 年払い",
+      "price": "9800",
+      "priceCurrency": "JPY",
+      "availability": "https://schema.org/InStock",
+      "priceSpecification": {"@type":"RecurringChargeSpecification","billingDuration":"P1Y"},
+      "url": "https://robin.katskouta.one/pricing"
+    }
+  ]
+}
+</script>
+<% end %>
+
 <div class="min-h-screen bg-white">
+  <%# Stripe test mode banner %>
+  <% if stripe_test_mode? %>
+    <div class="bg-amber-400 text-amber-900 text-center text-xs font-bold py-2 px-4 tracking-wide">
+      ⚠ Stripe テストモード稼働中 — カード番号 4242 4242 4242 4242 でテスト決済できます
+    </div>
+  <% end %>
+
   <%# Header %>
   <div class="border-b border-gray-100 px-6 py-4 flex items-center justify-between max-w-5xl mx-auto">
     <%= link_to root_path, class: "flex items-center gap-2" do %>
@@ -61,8 +116,9 @@
         <% end %>
       </div>
 
-      <%# Pro %>
-      <div class="border-2 border-sky-500 rounded-2xl p-7 relative shadow-lg shadow-sky-100">
+      <%# Pro — data-controller wraps everything so all targets are in scope %>
+      <div class="border-2 border-sky-500 rounded-2xl p-7 relative shadow-lg shadow-sky-100"
+           data-controller="pricing-toggle">
         <div class="absolute -top-3 left-1/2 -translate-x-1/2">
           <span class="bg-sky-500 text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wide">おすすめ</span>
         </div>
@@ -72,30 +128,42 @@
         </div>
 
         <%# Toggle monthly / yearly %>
-        <div id="pricing-toggle" data-controller="pricing-toggle">
-          <div class="flex bg-gray-100 rounded-full p-1 mb-4 w-fit gap-1">
-            <button data-action="click->pricing-toggle#showMonthly" data-pricing-toggle-target="monthlyBtn"
-              class="text-xs font-semibold px-3 py-1 rounded-full transition-colors bg-white shadow text-gray-900">
-              月払い
-            </button>
-            <button data-action="click->pricing-toggle#showYearly" data-pricing-toggle-target="yearlyBtn"
-              class="text-xs font-semibold px-3 py-1 rounded-full transition-colors text-gray-500">
-              年払い <span class="text-green-600">−17%</span>
-            </button>
-          </div>
+        <div class="flex bg-gray-100 rounded-full p-1 mb-4 w-fit gap-1">
+          <button type="button"
+            data-action="click->pricing-toggle#showMonthly"
+            data-pricing-toggle-target="monthlyBtn"
+            class="text-xs font-semibold px-3 py-1.5 rounded-full transition-all duration-200 bg-white shadow text-gray-900">
+            月払い
+          </button>
+          <button type="button"
+            data-action="click->pricing-toggle#showYearly"
+            data-pricing-toggle-target="yearlyBtn"
+            class="text-xs font-semibold px-3 py-1.5 rounded-full transition-all duration-200 text-gray-500">
+            年払い <span class="text-green-600 font-bold">−17%</span>
+          </button>
+        </div>
 
-          <div data-pricing-toggle-target="monthlyPrice">
-            <div class="flex items-end gap-1 mb-6">
+        <%# Price display with fade transition %>
+        <div class="relative mb-6" style="min-height: 3.5rem;">
+          <div data-pricing-toggle-target="monthlyPrice"
+               class="transition-all duration-200">
+            <div class="flex items-end gap-1">
               <span class="text-4xl font-extrabold">¥980</span>
               <span class="text-gray-400 mb-1">/月</span>
             </div>
           </div>
-          <div data-pricing-toggle-target="yearlyPrice" class="hidden">
-            <div class="flex items-end gap-1 mb-1">
+          <div data-pricing-toggle-target="yearlyPrice"
+               class="transition-all duration-200 hidden">
+            <div class="flex items-end gap-1 mb-0.5">
               <span class="text-4xl font-extrabold">¥9,800</span>
               <span class="text-gray-400 mb-1">/年</span>
             </div>
-            <p class="text-green-600 text-xs font-semibold mb-5">¥1,960お得（2ヶ月分無料）</p>
+            <div class="flex items-center gap-2">
+              <span class="text-gray-400 text-sm">¥817/月相当</span>
+              <span class="inline-flex items-center gap-1 bg-green-100 text-green-700 text-xs font-bold px-2 py-0.5 rounded-full">
+                2ヶ月無料
+              </span>
+            </div>
           </div>
         </div>
 
@@ -137,13 +205,13 @@
           <div data-pricing-toggle-target="monthlyForm">
             <%= form_with url: subscriptions_path, method: :post, data: { turbo: false } do |f| %>
               <%= f.hidden_field :interval, value: "month" %>
-              <%= f.submit "月払いで始める", class: "w-full bg-sky-500 hover:bg-sky-600 text-white font-bold py-3 rounded-full text-sm transition-colors cursor-pointer" %>
+              <%= f.submit "月払いで始める", class: "w-full bg-sky-500 hover:bg-sky-600 active:bg-sky-700 text-white font-bold py-3 rounded-full text-sm transition-colors cursor-pointer" %>
             <% end %>
           </div>
           <div data-pricing-toggle-target="yearlyForm" class="hidden">
             <%= form_with url: subscriptions_path, method: :post, data: { turbo: false } do |f| %>
               <%= f.hidden_field :interval, value: "year" %>
-              <%= f.submit "年払いで始める（2ヶ月無料）", class: "w-full bg-sky-500 hover:bg-sky-600 text-white font-bold py-3 rounded-full text-sm transition-colors cursor-pointer" %>
+              <%= f.submit "年払いで始める（2ヶ月無料）", class: "w-full bg-emerald-500 hover:bg-emerald-600 active:bg-emerald-700 text-white font-bold py-3 rounded-full text-sm transition-colors cursor-pointer" %>
             <% end %>
           </div>
           <p class="text-xs text-gray-400 text-center mt-3">いつでもキャンセル可能 · Stripe で安全に決済</p>

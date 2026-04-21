@@ -32,7 +32,7 @@ class CreatorProfile < ApplicationRecord
       }
     )
     update!(stripe_account_id: account.id)
-    stripe_account_id
+    account.id
   end
 
   def onboarding_url(refresh_url:, return_url:)
@@ -60,7 +60,8 @@ class CreatorProfile < ApplicationRecord
     return if account.capabilities&.card_payments.present?
     Stripe::Account.update(stripe_account_id,
       capabilities: { card_payments: { requested: true }, transfers: { requested: true } })
-  rescue Stripe::StripeError
+  rescue Stripe::StripeError => e
+    Rails.logger.warn "[Stripe] ensure_card_payments_capability! failed for account=#{stripe_account_id}: #{e.message}"
     # Non-fatal — onboarding link creation continues
   end
 end

@@ -1,6 +1,14 @@
 <%= turbo_frame_tag "tweet_#{tweet.id}_retweet" do %>
   <% retweeted = tweet.retweeted_by?(current_user) %>
-  <% if retweeted %>
+  <% if current_user.nil? %>
+    <%= link_to new_user_session_path, data: { turbo_frame: "_top" },
+          class: "flex items-center gap-1.5 hover:text-green-500 group transition-colors" do %>
+      <span class="p-1.5 rounded-full group-hover:bg-green-100 transition-colors">
+        <svg class="w-[18px] h-[18px]" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M7.707 3.293a1 1 0 010 1.414L5.414 7H11a7 7 0 017 7v2a1 1 0 11-2 0v-2a5 5 0 00-5-5H5.414l2.293 2.293a1 1 0 11-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+      </span>
+      <span class="text-sm"><%= tweet.retweets_count %></span>
+    <% end %>
+  <% elsif retweeted %>
     <%= button_to unretweet_tweet_path(tweet), method: :delete,
           class: "flex items-center gap-1.5 text-green-500 group transition-colors" do %>
       <span class="p-1.5 rounded-full group-hover:bg-green-100 transition-colors">

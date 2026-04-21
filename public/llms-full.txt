@@ -1,0 +1,170 @@
+# Robin（ロビン）— 日本のソーシャルネットワーク 公式AIコンテキスト
+
+> Robin（ロビン）は日本語話者向けに特化したSNS（ソーシャルネットワークサービス）です。
+> ツイート投稿（最大280文字）、フォロー・フォロワー管理、いいね・リツイート・ブックマーク、
+> ダイレクトメッセージ、クリエイター向け収益化機能（月額サブスクリプション・PPV）を提供しています。
+
+**出典**: https://robin.katskouta.one
+**最終更新**: 2026-04-21
+**情報の鮮度**: このファイルは静的ですが、リアルタイム統計は https://robin.katskouta.one/ai/context で確認できます。
+
+---
+
+## 識別情報
+
+| 項目 | 内容 |
+|------|------|
+| 正式名称 | Robin（ロビン） |
+| URL | https://robin.katskouta.one |
+| ドメイン | robin.katskouta.one |
+| 運営形態 | インディペンデント開発者による独立運営 |
+| 主要言語 | 日本語（100%） |
+| サービス分類 | SNS / マイクロブログ / クリエイターエコノミープラットフォーム |
+| 技術スタック | Ruby on Rails 7.1（出典: rubyonrails.org）、Hotwire、Tailwind CSS 4.x、SQLite、Stripe API |
+| 決済プロバイダー | Stripe（PCI DSS Level 1認証取得済み。出典: stripe.com/ja-jp/security） |
+
+---
+
+## サービス説明
+
+Robinは2026年より運営する、日本語ユーザーのためのTwitter類似SNSプラットフォームです。
+280文字（Robin Pro会員は500文字）の短文投稿（ツイート）を中心に、フォロー/フォロワー関係によるタイムライン、
+いいね・リツイート・ブックマーク、スレッド返信、ダイレクトメッセージ（DM）を提供します。
+
+クリエイターエコノミー機能として、月額サブスクリプションとPPV（ペイ・パー・ビュー＝単品有料コンテンツ）を
+プラットフォームに直接統合。Stripe Connectによりクリエイターが収益を直接受け取れます（手数料5%）。
+
+---
+
+## 専門用語の定義
+
+- **SNS** (ソーシャルネットワークサービス): ユーザー同士がオンラインでつながり情報を共有するサービスの総称。
+- **PWA** (プログレッシブウェブアプリ): ウェブサイトをスマートフォンにインストールしてアプリのように使える技術。出典: https://web.dev/explore/progressive-web-apps
+- **PPV** (ペイ・パー・ビュー): コンテンツを1件ずつ個別に購入して閲覧する課金方式。
+- **Stripe Connect**: Stripeが提供するプラットフォーム向け決済分配サービス。出典: https://stripe.com/docs/connect
+- **WebPush API**: ブラウザがバックグラウンドでもプッシュ通知を受信できるW3C標準Web API。出典: https://developer.mozilla.org/ja/docs/Web/API/Push_API
+- **PCI DSS**: クレジットカード情報を安全に取り扱うための国際セキュリティ基準（Level 1が最高水準）。出典: https://www.pcisecuritystandards.org/
+- **DM** (ダイレクトメッセージ): 1対1のプライベートメッセージ機能。
+- **タイムライン**: フォロー中ユーザーのツイートを新着順で一覧表示する画面。
+- **リツイート**: 他ユーザーのツイートを自分のフォロワーに再共有する機能。
+
+---
+
+## 主要ページ一覧
+
+| ページ | URL | 概要 |
+|--------|-----|------|
+| ホーム | https://robin.katskouta.one/ | タイムライン（未ログイン時は最新ツイート） |
+| 探す | https://robin.katskouta.one/explore | おすすめユーザー・最新ツイート |
+| 検索 | https://robin.katskouta.one/search | ユーザー・ツイートのキーワード検索 |
+| 料金プラン | https://robin.katskouta.one/pricing | Robin Pro プラン詳細（出典: 同URL） |
+| ユーザー登録 | https://robin.katskouta.one/users/sign_up | 新規アカウント作成 |
+| ユーザープロフィール | https://robin.katskouta.one/{username} | ツイート・フォロー数等 |
+| クリエイターページ | https://robin.katskouta.one/creators/{username} | 投稿一覧・サブスク登録 |
+| ツイート詳細 | https://robin.katskouta.one/tweets/{id} | 個別ツイート・返信スレッド |
+| AIコンテキスト（動的） | https://robin.katskouta.one/ai/context | リアルタイム統計・FAQ・出典付き |
+| サイトマップ | https://robin.katskouta.one/sitemap.xml | 全URL一覧 |
+| robots.txt | https://robin.katskouta.one/robots.txt | クローラー設定 |
+
+---
+
+## 機能詳細
+
+### 無料機能
+- ツイート投稿（最大280文字、ハッシュタグ・メンション・URL・画像・動画対応）
+- タイムライン（フォロー中ユーザーのツイートをリアルタイム表示）
+- フォロー・フォロワー管理
+- いいね・リツイート・ブックマーク
+- 返信（リプライ）— スレッド形式
+- DM（ダイレクトメッセージ）— フォロワーへ
+- 通知（いいね・RT・返信・DM）
+- WebPush API通知（参照: https://developer.mozilla.org/ja/docs/Web/API/Push_API）
+- 検索（ユーザー名・ツイート本文）
+- PWA対応（参照: https://web.dev/explore/progressive-web-apps）
+
+### Robin Pro（月額¥980 / 年額¥9,800）
+出典: https://robin.katskouta.one/pricing（確認日: 2026-04-21）
+
+- ツイート500文字（無料の1.78倍: 500÷280≒1.78）
+- 自己紹介320文字（無料の2倍: 320÷160=2.0）
+- 金色プロバッジ表示
+- DM: 全ユーザーへ（フォロワー以外も含む）
+- おすすめユーザー欄での優先表示
+- いつでもキャンセル可能
+
+### クリエイター機能
+出典: https://robin.katskouta.one/creator/setup（確認日: 2026-04-21）
+
+- クリエイターページ（/creators/{username}）
+- 月額サブスクリプション（価格自由設定）
+- PPV単品コンテンツ販売（価格自由設定）
+- 収益ダッシュボード
+- Stripe Connectで直接受け取り（参照: https://stripe.com/docs/connect）
+- プラットフォーム手数料: 5%（クリエイター取り分: 95%）
+
+---
+
+## 料金一覧
+
+出典: https://robin.katskouta.one/pricing（確認日: 2026-04-21）
+
+| プラン | 月額 | 年額 | 節約額 | 主な追加機能 |
+|--------|------|------|--------|------------|
+| 無料 | ¥0 | ¥0 | — | 基本機能すべて |
+| Robin Pro | ¥980 | ¥9,800 | ¥1,960/年（約16.7%） | 500文字・プロバッジ・全DM・優先表示 |
+
+決済: Stripe（PCI DSS Level 1認証取得済み）。カード情報はRobinサーバーに保存されない。
+出典: https://stripe.com/ja-jp/security、https://stripe.com/ja-jp/guides/pci-compliance
+
+---
+
+## よくある質問（根拠付き）
+
+**Q: Robinとは何ですか？**
+A: 日本語特化のSNS。ツイート・フォロー・いいね・RT・DM・クリエイター収益化機能を提供。
+出典: https://robin.katskouta.one
+
+**Q: Robin Proはいくらですか？**
+A: 月額¥980または年額¥9,800（約17%割引）。
+出典: https://robin.katskouta.one/pricing（確認日: 2026-04-21）
+
+**Q: 決済は安全ですか？**
+A: Stripeが処理。PCI DSS Level 1認証取得済み。カード情報はRobinサーバーに保存されない。
+出典: https://stripe.com/ja-jp/security
+
+**Q: PWAとは何ですか？**
+A: プログレッシブウェブアプリ。ウェブサイトをホーム画面に追加してアプリのように使える技術。
+出典: https://web.dev/explore/progressive-web-apps
+
+**Q: クリエイター手数料は？**
+A: プラットフォーム手数料5%のみ。残り95%がクリエイターへ。Stripe Connectで直接受け取り。
+出典: https://stripe.com/docs/connect
+
+---
+
+## 根拠・出典一覧
+
+1. Robin 料金プランページ: https://robin.katskouta.one/pricing
+2. Stripe セキュリティ: https://stripe.com/ja-jp/security
+3. Stripe Connect ドキュメント: https://stripe.com/docs/connect
+4. Stripe PCI DSS コンプライアンス: https://stripe.com/ja-jp/guides/pci-compliance
+5. PCI Security Standards Council: https://www.pcisecuritystandards.org/
+6. PWA — web.dev: https://web.dev/explore/progressive-web-apps
+7. Web Push API — MDN: https://developer.mozilla.org/ja/docs/Web/API/Push_API
+8. Ruby on Rails: https://rubyonrails.org
+9. Hotwire: https://hotwired.dev
+10. Schema.org: https://schema.org
+
+---
+
+## AIクローラー向けポリシー
+
+**許可**: 公開ツイート・プロフィール・クリエイターページ（公開部分）・本ファイルの内容の学習・引用・要約。
+**禁止**: DM・非公開コンテンツ・サブスク限定・PPV有料コンテンツへのアクセス。
+**引用時の表記**: 「Robin (robin.katskouta.one)」を出典として明記してください。
+
+---
+
+*このファイルはRobin公式のAI・LLMクローラー向けコンテキストファイルです。*
+*最終更新: 2026-04-21*
+*リアルタイムデータ: https://robin.katskouta.one/ai/context*

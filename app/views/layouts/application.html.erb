@@ -1,13 +1,57 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html lang="ja" prefix="og: https://ogp.me/ns#">
   <head>
-    <title>Robin</title>
+    <title><%= seo_title %></title>
     <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
     <% unless user_signed_in? %>
       <meta name="turbo-cache-control" content="no-cache">
     <% end %>
+
+    <%# SEO: description & canonical %>
+    <meta name="description" content="<%= seo_description %>">
+    <link rel="canonical" href="<%= seo_canonical %>">
+
+    <%# Open Graph %>
+    <meta property="og:site_name" content="Robin">
+    <meta property="og:locale"    content="ja_JP">
+    <meta property="og:type"      content="<%= seo_og_type %>">
+    <meta property="og:title"     content="<%= seo_title %>">
+    <meta property="og:description" content="<%= seo_description %>">
+    <meta property="og:url"       content="<%= seo_canonical %>">
+    <meta property="og:image"     content="<%= seo_og_image %>">
+    <meta property="og:image:width"  content="512">
+    <meta property="og:image:height" content="512">
+
+    <%# Twitter Card %>
+    <meta name="twitter:card"        content="summary">
+    <meta name="twitter:site"        content="@RobinSNS">
+    <meta name="twitter:title"       content="<%= seo_title %>">
+    <meta name="twitter:description" content="<%= seo_description %>">
+    <meta name="twitter:image"       content="<%= seo_og_image %>">
+
+    <%# Global: Organization + WebSite (every page) %>
+    <script type="application/ld+json"><%= global_structured_data_json.html_safe %></script>
+
+    <%# Global: WebPage %>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebPage",
+      "@id": "<%= seo_canonical %>#webpage",
+      "url": "<%= seo_canonical %>",
+      "name": "<%= seo_title %>",
+      "description": "<%= j seo_description %>",
+      "inLanguage": "ja",
+      "isPartOf": {"@id": "https://robin.katskouta.one/#website"},
+      "publisher": {"@id": "https://robin.katskouta.one/#organization"},
+      "dateModified": "<%= Time.current.iso8601 %>"
+    }
+    </script>
+
+    <%# Page-specific structured data %>
+    <%= content_for(:structured_data) %>
 
     <%# PWA manifest %>
     <link rel="manifest" href="/manifest.json">
@@ -32,7 +76,7 @@
     <link rel="icon" type="image/png" sizes="192x192" href="/icons/icon-192x192.png">
     <link rel="shortcut icon" href="/favicon.ico">
 
-    <%# iOS splash screens - iPhone sizes %>
+    <%# iOS splash screens %>
     <meta name="msapplication-TileColor" content="#0ea5e9">
     <meta name="msapplication-TileImage" content="/icons/icon-144x144.png">
 
@@ -290,8 +334,124 @@
       </nav>
       <div class="h-14 md:hidden" style="padding-bottom: env(safe-area-inset-bottom)"></div>
 
-    <% else %>
+    <% elsif devise_controller? %>
+      <%# Devise auth forms: full-screen layout, no nav needed %>
       <%= yield %>
+
+    <% else %>
+      <%# Guest layout: public pages with minimal nav %>
+      <div class="flex min-h-screen max-w-7xl mx-auto">
+        <%# Guest Left Sidebar %>
+        <aside class="hidden md:flex flex-col sticky top-0 h-screen w-[72px] xl:w-[275px] flex-shrink-0 px-2 xl:px-4 pt-1 border-r border-gray-100">
+          <%= link_to root_path, class: "p-3 rounded-full hover:bg-gray-100 transition-colors w-fit mb-1" do %>
+            <%= render "shared/robin_logo", size_class: "w-7 h-7", color_class: "text-sky-500" %>
+          <% end %>
+
+          <nav class="flex flex-col gap-0.5">
+            <%= link_to root_path, class: "flex items-center gap-4 px-3 py-3 rounded-full hover:bg-gray-100 transition-colors group w-fit xl:w-full #{current_page?(root_path) ? 'font-bold' : ''}" do %>
+              <svg class="w-[26px] h-[26px]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="<%= current_page?(root_path) ? 2.5 : 2 %>">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25"/>
+              </svg>
+              <span class="text-xl hidden xl:block">ホーム</span>
+            <% end %>
+
+            <%= link_to explore_path, class: "flex items-center gap-4 px-3 py-3 rounded-full hover:bg-gray-100 transition-colors group w-fit xl:w-full #{current_page?(explore_path) ? 'font-bold' : ''}" do %>
+              <svg class="w-[26px] h-[26px]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="<%= current_page?(explore_path) ? 2.5 : 2 %>">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 15.803a7.5 7.5 0 0010.607 0z"/>
+              </svg>
+              <span class="text-xl hidden xl:block">探す</span>
+            <% end %>
+          </nav>
+
+          <div class="mt-auto mb-6 flex flex-col gap-3">
+            <%= link_to new_user_session_path, class: "flex items-center justify-center gap-2 border-2 border-sky-500 text-sky-600 hover:bg-sky-50 font-bold rounded-full px-4 py-2.5 text-sm transition-colors w-fit xl:w-full" do %>
+              <span class="hidden xl:inline">ログイン</span>
+              <svg class="w-6 h-6 xl:hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15M12 9l-3 3m0 0l3 3m-3-3h12.75"/></svg>
+            <% end %>
+            <%= link_to new_user_registration_path, class: "flex items-center justify-center gap-2 bg-sky-500 hover:bg-sky-600 text-white font-bold rounded-full px-4 py-2.5 text-sm transition-colors w-fit xl:w-full" do %>
+              <span class="hidden xl:inline">新規登録（無料）</span>
+              <svg class="w-6 h-6 xl:hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7.5v3m0 0v3m0-3h3m-3 0h-3m-2.25-4.125a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zM4 19.235v-.11a6.375 6.375 0 0112.75 0v.109A12.318 12.318 0 0110.374 21c-2.331 0-4.512-.645-6.374-1.766z"/></svg>
+            <% end %>
+          </div>
+        </aside>
+
+        <%# Main Content %>
+        <main class="flex-1 min-w-0 max-w-[600px] border-r border-gray-100">
+          <% if notice.present? %>
+            <div data-controller="flash" class="flex items-center gap-2 bg-sky-500 text-white text-sm px-4 py-3">
+              <svg class="w-4 h-4 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+              </svg>
+              <span class="flex-1"><%= notice %></span>
+              <button data-action="click->flash#dismiss" class="hover:opacity-70 transition-opacity">
+                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+              </button>
+            </div>
+          <% end %>
+          <% if alert.present? %>
+            <div data-controller="flash" class="flex items-center gap-2 bg-red-500 text-white text-sm px-4 py-3">
+              <svg class="w-4 h-4 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z"/>
+              </svg>
+              <span class="flex-1"><%= alert %></span>
+              <button data-action="click->flash#dismiss" class="hover:opacity-70 transition-opacity">
+                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+              </button>
+            </div>
+          <% end %>
+          <%= yield %>
+        </main>
+
+        <%# Guest Right Sidebar %>
+        <aside class="hidden lg:block w-[350px] flex-shrink-0 pl-8 pt-4 sticky top-0 h-screen overflow-y-auto">
+          <%# Search %>
+          <%= form_with url: search_path, method: :get, local: true, class: "mb-4" do |f| %>
+            <div class="relative">
+              <svg class="absolute left-3 top-2.5 w-5 h-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 15.803a7.5 7.5 0 0010.607 0z"/>
+              </svg>
+              <%= f.search_field :q, placeholder: "検索", value: params[:q], class: "w-full pl-10 pr-4 py-2.5 bg-gray-100 hover:bg-gray-200 focus:bg-white rounded-full text-sm border border-transparent focus:border-sky-500 focus:ring-2 focus:ring-sky-500/20 focus:outline-none transition" %>
+            </div>
+          <% end %>
+
+          <%# Join CTA %>
+          <div class="bg-gray-50 rounded-2xl p-5">
+            <h2 class="font-bold text-xl mb-2">Robinに参加しよう</h2>
+            <p class="text-gray-500 text-sm mb-4">今すぐ登録して、フォロー・いいね・ツイートを楽しもう。</p>
+            <%= link_to new_user_registration_path, class: "block w-full bg-sky-500 hover:bg-sky-600 text-white font-bold text-center py-2.5 rounded-full text-sm transition-colors mb-2" do %>
+              アカウントを作成
+            <% end %>
+            <%= link_to new_user_session_path, class: "block w-full border-2 border-sky-500 text-sky-600 hover:bg-sky-50 font-bold text-center py-2 rounded-full text-sm transition-colors" do %>
+              ログイン
+            <% end %>
+          </div>
+        </aside>
+      </div>
+
+      <%# Guest mobile bottom nav %>
+      <nav class="mobile-bottom-nav fixed bottom-0 left-0 right-0 bg-white border-t border-gray-100 flex md:hidden z-50">
+        <%= link_to root_path, class: "flex-1 flex flex-col items-center py-2 #{current_page?(root_path) ? 'text-sky-500' : 'text-gray-500'}" do %>
+          <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25"/>
+          </svg>
+        <% end %>
+        <%= link_to explore_path, class: "flex-1 flex flex-col items-center py-2 #{current_page?(explore_path) ? 'text-sky-500' : 'text-gray-500'}" do %>
+          <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 15.803a7.5 7.5 0 0010.607 0z"/>
+          </svg>
+        <% end %>
+        <%= link_to new_user_session_path, class: "flex-1 flex flex-col items-center py-2 text-gray-500" do %>
+          <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15M12 9l-3 3m0 0l3 3m-3-3h12.75"/>
+          </svg>
+        <% end %>
+        <%= link_to new_user_registration_path, class: "flex-1 flex flex-col items-center py-2 text-sky-500" do %>
+          <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M19 7.5v3m0 0v3m0-3h3m-3 0h-3m-2.25-4.125a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zM4 19.235v-.11a6.375 6.375 0 0112.75 0v.109A12.318 12.318 0 0110.374 21c-2.331 0-4.512-.645-6.374-1.766z"/>
+          </svg>
+        <% end %>
+      </nav>
+      <div class="h-14 md:hidden" style="padding-bottom: env(safe-area-inset-bottom)"></div>
     <% end %>
   </body>
 </html>

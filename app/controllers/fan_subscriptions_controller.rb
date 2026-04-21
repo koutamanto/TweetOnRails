@@ -42,14 +42,14 @@ class FanSubscriptionsController < ApplicationController
         metadata: { type: "fan_subscription", fan_subscription_id: fan_sub.id.to_s }
       },
       metadata: { type: "fan_subscription", fan_subscription_id: fan_sub.id.to_s },
-      success_url: fan_subscription_success_url(fan_subscription_id: fan_sub.id),
+      success_url: success_fan_subscriptions_url(fan_subscription_id: fan_sub.id),
       cancel_url: creator_profile_url(creator_profile.user.username)
     )
 
     fan_sub.update_column(:stripe_checkout_session_id, session.id)
     redirect_to session.url, allow_other_host: true
   rescue Stripe::StripeError => e
-    fan_sub&.destroy if fan_sub&.new_record? == false && fan_sub&.pending?
+    fan_sub.destroy if fan_sub&.persisted? && fan_sub.pending?
     redirect_back fallback_location: root_path, alert: "決済エラー: #{e.message}"
   end
 
@@ -67,7 +67,9 @@ class FanSubscriptionsController < ApplicationController
     fan_sub = FanSubscription.find_by(id: params[:id], subscriber: current_user)
     return redirect_back fallback_location: root_path, alert: "見つかりませんでした" unless fan_sub
 
-    Stripe::Subscription.cancel(fan_sub.stripe_subscription_id) if fan_sub.stripe_subscription_id.present?
+    if fan_sub.stripe_subscription_id.present?
+      Stripe::Subscription.cancel(fan_sub.stripe_subscription_id)
+    end
     fan_sub.update!(status: :cancelled)
     redirect_back fallback_location: root_path, notice: "サブスクリプションをキャンセルしました"
   rescue Stripe::StripeError => e

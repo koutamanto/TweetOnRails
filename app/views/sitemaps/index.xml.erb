@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+
+  <%# Static pages %>
+  <url>
+    <loc>https://robin.katskouta.one/</loc>
+    <changefreq>always</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://robin.katskouta.one/explore</loc>
+    <changefreq>hourly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://robin.katskouta.one/pricing</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <%# User profiles %>
+  <% @users.each do |user| %>
+  <url>
+    <loc>https://robin.katskouta.one/<%= user.username %></loc>
+    <lastmod><%= user.updated_at.utc.strftime("%Y-%m-%d") %></lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <% end %>
+
+  <%# Creator profiles %>
+  <% @creator_profiles.each do |cp| %>
+  <url>
+    <loc>https://robin.katskouta.one/creators/<%= cp.username %></loc>
+    <lastmod><%= cp.updated_at.utc.strftime("%Y-%m-%d") %></lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <% end %>
+
+  <%# Individual tweets %>
+  <% @tweets.each do |tweet| %>
+  <url>
+    <loc>https://robin.katskouta.one/tweets/<%= tweet.id %></loc>
+    <lastmod><%= tweet.updated_at.utc.strftime("%Y-%m-%d") %></lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <% end %>
+
+</urlset>

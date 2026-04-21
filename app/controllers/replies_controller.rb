@@ -1,4 +1,5 @@
 class RepliesController < ApplicationController
+  before_action :authenticate_user!
   before_action :set_tweet
 
   def create

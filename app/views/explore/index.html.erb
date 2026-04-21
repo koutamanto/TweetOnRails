@@ -1,3 +1,25 @@
+<% content_for :seo_title, "探す" %>
+<% content_for :seo_desc, "Robinでユーザーやツイートを探しましょう。おすすめユーザー、最新ツイート、話題のコンテンツを発見。" %>
+<% content_for :seo_canonical, "https://robin.katskouta.one/explore" %>
+<% content_for :structured_data do %>
+<%= breadcrumb_json_ld([
+  {name: "ホーム", url: "https://robin.katskouta.one/"},
+  {name: "探す", url: "https://robin.katskouta.one/explore"}
+]) %>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  "@id": "https://robin.katskouta.one/explore#webpage",
+  "name": "探す | Robin",
+  "description": "Robinでユーザーやツイートを探しましょう。おすすめユーザー、最新ツイート、話題のコンテンツを発見。",
+  "url": "https://robin.katskouta.one/explore",
+  "inLanguage": "ja",
+  "isPartOf": {"@id": "https://robin.katskouta.one/#website"}
+}
+</script>
+<% end %>
+
 <div class="sticky top-0 bg-white/80 backdrop-blur-sm border-b border-gray-100 px-4 py-3 z-10">
   <h1 class="font-bold text-xl">探す</h1>
 </div>

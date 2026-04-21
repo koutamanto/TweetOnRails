@@ -1,0 +1,20 @@
+<h2 style="font-size: 22px; font-weight: bold; margin-bottom: 16px;">メールアドレスの確認</h2>
+
+<p style="margin-bottom: 16px;">
+  Robin（ロビン）へご登録いただき、ありがとうございます。<br>
+  アカウントを有効化するため、以下のボタンからメールアドレスの確認をお願いいたします。
+</p>
+
+<p style="text-align: center; margin: 28px 0;">
+  <%= link_to "メールアドレスを確認する", confirmation_url(@resource, confirmation_token: @token), class: "btn" %>
+</p>
+
+<p style="color: #6b7280; font-size: 13px; margin-bottom: 8px;">
+  ボタンが機能しない場合は、以下のURLをブラウザに貼り付けてご確認ください：<br>
+  <span style="word-break: break-all;"><%= confirmation_url(@resource, confirmation_token: @token) %></span>
+</p>
+
+<p style="color: #6b7280; font-size: 13px;">
+  このメールにお心当たりがない場合は、お手数ですが無視していただいて構いません。<br>
+  リンクを開かない限り、アカウントは作成されません。
+</p>

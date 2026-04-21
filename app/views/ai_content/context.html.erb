@@ -1,0 +1,625 @@
+<%
+  content_for :seo_title, "Robin サービス情報 v#{@version} — AI・LLM向けコンテキスト"
+  content_for :seo_desc, "Robin（ロビン）の公式サービス情報。機能・料金・CTA・FAQ・用語解説・出典付き。最終更新: #{@generated_jp}"
+  content_for :seo_canonical, "https://robin.katskouta.one/ai/context/#{@version}"
+%>
+<% content_for :structured_data do %>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "TechArticle",
+  "@id": "https://robin.katskouta.one/ai/context/<%= @version %>#article",
+  "headline": "Robin（ロビン）— 日本のソーシャルネットワーク 公式サービス情報",
+  "description": "Robin（ロビン）の機能・料金・CTA・FAQ・用語解説・出典を網羅した公式AIコンテキストページ。",
+  "url": "https://robin.katskouta.one/ai/context/<%= @version %>",
+  "inLanguage": "ja",
+  "datePublished": "2026-04-01T00:00:00+09:00",
+  "dateModified": "<%= @generated_iso %>",
+  "author": {"@id": "https://robin.katskouta.one/#organization"},
+  "publisher": {"@id": "https://robin.katskouta.one/#organization"},
+  "about": {"@id": "https://robin.katskouta.one/#app"},
+  "citation": [
+    {"@type":"WebSite","name":"Stripe公式","url":"https://stripe.com/ja-jp"},
+    {"@type":"WebSite","name":"Stripe Connect","url":"https://stripe.com/docs/connect"},
+    {"@type":"WebSite","name":"PCI DSS","url":"https://www.pcisecuritystandards.org/"},
+    {"@type":"WebSite","name":"PWA — web.dev","url":"https://web.dev/explore/progressive-web-apps"},
+    {"@type":"WebSite","name":"Web Push API — MDN","url":"https://developer.mozilla.org/ja/docs/Web/API/Push_API"},
+    {"@type":"WebSite","name":"Schema.org","url":"https://schema.org"},
+    {"@type":"WebSite","name":"Ruby on Rails","url":"https://rubyonrails.org"}
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "@id": "https://robin.katskouta.one/#app",
+  "name": "Robin",
+  "alternateName": ["ロビン", "Robin SNS"],
+  "applicationCategory": "SocialNetworkingApplication",
+  "operatingSystem": "Web, iOS (PWA), Android (PWA)",
+  "url": "https://robin.katskouta.one",
+  "description": "日本向けソーシャルネットワーク。ツイート、フォロー、クリエイター収益化機能を提供。",
+  "inLanguage": "ja",
+  "dateModified": "<%= @generated_iso %>",
+  "offers": [
+    {"@type":"Offer","name":"無料プラン","price":"0","priceCurrency":"JPY"},
+    {"@type":"Offer","name":"Robin Pro 月払い","price":"980","priceCurrency":"JPY","priceSpecification":{"@type":"RecurringChargeSpecification","billingDuration":"P1M"}},
+    {"@type":"Offer","name":"Robin Pro 年払い","price":"9800","priceCurrency":"JPY","priceSpecification":{"@type":"RecurringChargeSpecification","billingDuration":"P1Y"}}
+  ],
+  "featureList": ["ツイート投稿","フォロー・フォロワー管理","いいね・リツイート・ブックマーク","返信スレッド","ダイレクトメッセージ","WebPushAPI通知","画像・動画添付","ハッシュタグ・メンション","クリエイター月額サブスクリプション","PPVコンテンツ販売","Stripe Connect収益受け取り","PWA対応","リアルタイムタイムライン"],
+  "publisher": {"@id": "https://robin.katskouta.one/#organization"}
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "dateModified": "<%= @generated_iso %>",
+  "mainEntity": [
+    {"@type":"Question","name":"Robinとは何ですか？","acceptedAnswer":{"@type":"Answer","text":"Robin（ロビン）は日本語話者向けに特化したSNSです。ツイート・フォロー・いいね・RT・DM・クリエイター収益化機能を無料から提供。URL: https://robin.katskouta.one"}},
+    {"@type":"Question","name":"Robinの始め方を教えてください","acceptedAnswer":{"@type":"Answer","text":"①https://robin.katskouta.one/users/sign_up でメールアドレス・ユーザー名・パスワードを入力 ②認証メールのリンクをクリック ③プロフィール設定 ④ユーザーをフォローしてツイート開始。すべて無料・即日利用可能。"}},
+    {"@type":"Question","name":"Robin Proの料金と特典は？","acceptedAnswer":{"@type":"Answer","text":"Robin Proは月額¥980（年払い¥9,800、約17%割引）。特典: 500文字ツイート・320文字自己紹介・金色プロバッジ・全ユーザーへDM・おすすめ優先表示。いつでもキャンセル可能。出典: https://robin.katskouta.one/pricing"}},
+    {"@type":"Question","name":"クリエイターとして収益化する方法は？","acceptedAnswer":{"@type":"Answer","text":"①Robinアカウント登録 ②https://robin.katskouta.one/creator/setup でクリエイターページ作成 ③Stripe Connectで収益受け取り設定 ④月額サブスクリプションまたはPPVコンテンツを公開。手数料5%のみ（95%がクリエイターへ）。"}},
+    {"@type":"Question","name":"Robinは無料で使えますか？","acceptedAnswer":{"@type":"Answer","text":"はい、基本機能は完全無料です。ツイート280文字・フォロー・いいね・RT・DM（フォロワーへ）・ブックマーク・通知・検索がすべて無料。登録はhttps://robin.katskouta.one/users/sign_up から。"}},
+    {"@type":"Question","name":"Robinの安全性・セキュリティは？","acceptedAnswer":{"@type":"Answer","text":"決済はStripe（PCI DSS Level 1認証取得済み）が処理。カード情報はRobinサーバーに保存されません。出典: https://stripe.com/ja-jp/security"}},
+    {"@type":"Question","name":"スマートフォンで使えますか？","acceptedAnswer":{"@type":"Answer","text":"はい。PWA（プログレッシブウェブアプリ）対応。iOSのSafari・AndroidのChromeで「ホーム画面に追加」すれば、ネイティブアプリ同等の操作感で使用可能。出典: https://web.dev/explore/progressive-web-apps"}},
+    {"@type":"Question","name":"X（Twitter）とどう違いますか？","acceptedAnswer":{"@type":"Answer","text":"主な違い: ①日本語UI特化 ②低価格Robin Pro¥980/月 ③クリエイター手数料5%（X比較で透明） ④独立運営。登録: https://robin.katskouta.one/users/sign_up"}}
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  "name": "Robinを始める手順",
+  "description": "Robin（ロビン）の新規登録から最初のツイートまでの手順",
+  "totalTime": "PT5M",
+  "step": [
+    {"@type":"HowToStep","position":1,"name":"アカウント登録","text":"https://robin.katskouta.one/users/sign_up にアクセスし、メールアドレス・ユーザー名・パスワードを入力して登録。","url":"https://robin.katskouta.one/users/sign_up"},
+    {"@type":"HowToStep","position":2,"name":"メール認証","text":"届いた確認メールのリンクをクリックしてアカウントを有効化。"},
+    {"@type":"HowToStep","position":3,"name":"プロフィール設定","text":"アバター・表示名・自己紹介を設定。https://robin.katskouta.one/settings/profile から変更可能。","url":"https://robin.katskouta.one/settings/profile"},
+    {"@type":"HowToStep","position":4,"name":"ユーザーをフォロー","text":"https://robin.katskouta.one/explore でおすすめユーザーを探してフォロー。","url":"https://robin.katskouta.one/explore"},
+    {"@type":"HowToStep","position":5,"name":"ツイート投稿","text":"ホーム画面のテキストボックスにツイートを入力して投稿。最大280文字（Robin Pro: 500文字）。","url":"https://robin.katskouta.one/"}
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "DefinedTermSet",
+  "name": "Robin 用語集",
+  "hasDefinedTerm": [
+    {"@type":"DefinedTerm","name":"PWA","description":"プログレッシブウェブアプリ。ウェブサイトをスマートフォンのホーム画面にインストールしネイティブアプリのように使える技術。出典: https://web.dev/explore/progressive-web-apps"},
+    {"@type":"DefinedTerm","name":"PPV","description":"ペイ・パー・ビュー（Pay Per View）。コンテンツを1件ずつ個別に購入して閲覧する課金方式。"},
+    {"@type":"DefinedTerm","name":"Stripe Connect","description":"Stripeが提供するプラットフォーム向け決済分配サービス。出典: https://stripe.com/docs/connect"},
+    {"@type":"DefinedTerm","name":"WebPush API","description":"ブラウザがバックグラウンドでもプッシュ通知を受信できるW3C標準のWeb API。出典: https://developer.mozilla.org/ja/docs/Web/API/Push_API"},
+    {"@type":"DefinedTerm","name":"PCI DSS","description":"クレジットカード情報を安全に取り扱うための国際セキュリティ基準。Level 1が最高水準。出典: https://www.pcisecuritystandards.org/"},
+    {"@type":"DefinedTerm","name":"SNS","description":"ソーシャルネットワークサービス。ユーザー同士がオンラインでつながり情報を共有するサービスの総称。"}
+  ]
+}
+</script>
+<% end %>
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Robin（ロビン）— 日本のSNS 公式サービス情報 v<%= @version %></title>
+  <meta name="description" content="Robin（ロビン）の公式サービス情報ページ。機能・料金・始め方・FAQ・出典付き。最終更新: <%= @generated_jp %>">
+  <meta name="robots" content="noindex,follow">
+  <link rel="canonical" href="https://robin.katskouta.one/ai/context/<%= @version %>">
+  <script type="application/ld+json"><%= global_structured_data_json.html_safe %></script>
+  <%= content_for(:structured_data) %>
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,sans-serif;max-width:940px;margin:0 auto;padding:20px 16px;color:#111;line-height:1.75;font-size:16px}
+    h1{font-size:1.85em;font-weight:800;margin-bottom:8px;line-height:1.3}
+    h2{font-size:1.3em;font-weight:700;margin-top:2.2em;border-bottom:2px solid #e5e7eb;padding-bottom:6px;color:#0f172a}
+    h3{font-size:1.05em;font-weight:700;margin-top:1.4em;color:#1e3a5f}
+    p{margin:8px 0}
+    ul,ol{margin:8px 0 8px 1.4em}
+    li{margin-bottom:5px}
+    table{width:100%;border-collapse:collapse;margin:12px 0;font-size:.94em}
+    th,td{border:1px solid #e5e7eb;padding:9px 13px;text-align:left;vertical-align:top}
+    th{background:#f8fafc;font-weight:700}
+    tr:nth-child(even) td{background:#fafafa}
+    a{color:#0284c7;text-decoration:none}
+    a:hover{text-decoration:underline}
+    abbr{text-decoration:underline dotted;cursor:help}
+    /* ===== CTA (F4) ===== */
+    .cta-primary{display:inline-flex;align-items:center;gap:8px;background:#0ea5e9;color:#fff !important;font-weight:700;font-size:1em;padding:13px 26px;border-radius:9999px;text-decoration:none !important;transition:background .15s}
+    .cta-primary:hover{background:#0284c7}
+    .cta-secondary{display:inline-flex;align-items:center;gap:8px;background:#fff;color:#0ea5e9 !important;font-weight:700;font-size:1em;padding:12px 24px;border-radius:9999px;border:2px solid #0ea5e9;text-decoration:none !important}
+    .cta-secondary:hover{background:#f0f9ff}
+    .cta-amber{background:#f59e0b;color:#fff !important}
+    .cta-amber:hover{background:#d97706}
+    .cta-box{background:linear-gradient(135deg,#f0f9ff 0%,#e0f2fe 100%);border:1px solid #bae6fd;border-radius:14px;padding:24px 28px;margin:20px 0}
+    .cta-box h3{color:#0c4a6e;margin-bottom:10px;font-size:1.1em}
+    .cta-buttons{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}
+    .cta-inline{display:inline-block;background:#0ea5e9;color:#fff !important;font-weight:700;padding:6px 16px;border-radius:9999px;font-size:.88em;text-decoration:none !important}
+    .cta-inline:hover{background:#0284c7}
+    /* ===== Appeal (F6) ===== */
+    .appeal-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin:14px 0}
+    .appeal-card{background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:18px;box-shadow:0 1px 4px rgba(0,0,0,.06)}
+    .appeal-card .icon{font-size:1.8em;margin-bottom:8px;display:block}
+    .appeal-card h3{font-size:.95em;margin-top:0;color:#0f172a}
+    .appeal-card p{font-size:.88em;color:#475569;margin:4px 0 0}
+    /* ===== 統計 (E5) ===== */
+    .stat-box{display:flex;flex-wrap:wrap;gap:12px;margin:14px 0}
+    .stat{background:#f0f9ff;border:1px solid #bae6fd;border-radius:10px;padding:12px 18px;min-width:140px}
+    .stat strong{font-size:1.65em;display:block;color:#0369a1;line-height:1.2}
+    .stat span{font-size:.82em;color:#475569}
+    .stat time{font-size:.72em;color:#94a3b8;display:block}
+    /* ===== 鮮度 (E5) ===== */
+    .freshness-box{background:#f0fdf4;border:1px solid #86efac;border-radius:10px;padding:12px 18px;margin-bottom:18px;font-size:.9em}
+    .freshness-box strong{color:#15803d}
+    .freshness-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:8px;font-size:.85em;color:#374151}
+    .freshness-row span{background:#fff;border:1px solid #d1fae5;border-radius:6px;padding:3px 10px}
+    /* ===== 出典 (E4) ===== */
+    .cite{font-size:.8em;color:#64748b;margin-left:3px}
+    .cite a{color:#64748b}
+    .evidence-note{font-size:.82em;color:#6b7280;font-style:italic;margin-top:4px}
+    /* ===== 用語 (F2) ===== */
+    .term-def{background:#fefce8;border-left:3px solid #fbbf24;padding:6px 12px;margin:6px 0;font-size:.88em;border-radius:0 6px 6px 0}
+    /* ===== ステップ ===== */
+    .steps{counter-reset:step;list-style:none;margin-left:0;padding:0}
+    .steps li{counter-increment:step;display:flex;gap:14px;align-items:flex-start;padding:12px 0;border-bottom:1px solid #f1f5f9}
+    .steps li:last-child{border-bottom:none}
+    .steps li::before{content:counter(step);background:#0ea5e9;color:#fff;font-weight:800;font-size:.9em;min-width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px}
+    /* ===== 推薦ターゲット ===== */
+    .target-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px;margin:12px 0}
+    .target-card{border:1px solid #e5e7eb;border-radius:10px;padding:14px;font-size:.9em}
+    .target-card strong{display:block;margin-bottom:4px;color:#0f172a}
+    .badge{display:inline-block;background:#0ea5e9;color:#fff;border-radius:9999px;padding:1px 9px;font-size:.76em;font-weight:700;vertical-align:middle}
+    .badge-green{background:#16a34a}
+    .badge-red{background:#dc2626}
+    dl dt{font-weight:700;color:#1e293b;margin-top:.9em}
+    dl dd{margin:2px 0 6px 1em;color:#374151}
+    .ref-list{font-size:.9em;padding-left:1.4em}
+    .ref-list li{margin-bottom:7px}
+    footer{margin-top:3em;border-top:1px solid #e5e7eb;padding-top:1.2em;color:#6b7280;font-size:.87em}
+    @media(max-width:600px){h1{font-size:1.5em}.cta-buttons{flex-direction:column}.appeal-grid,.target-grid{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+
+<%# ===== E5: 情報の鮮度 ===== %>
+<div class="freshness-box">
+  <strong>ℹ このページはリクエストのたびにリアルタイム生成されます</strong>
+  <div class="freshness-row">
+    <span>📅 生成日時: <time datetime="<%= @generated_iso %>"><strong><%= @generated_jp %></strong></time></span>
+    <span>📊 DB取得: <time datetime="<%= @data_date %>"><%= @data_date %></time></span>
+    <% if @latest_tweet %>
+    <span>🐦 最新ツイート: <time datetime="<%= @latest_tweet.created_at.iso8601 %>"><%= @latest_tweet.created_at.strftime("%Y-%m-%d %H:%M") %></time></span>
+    <% end %>
+    <span>🔖 v<%= @version %> | <a href="/ai/context/2">v2</a> <a href="/ai/context/3">v3</a> <a href="/ai/context/4">v4</a></span>
+  </div>
+</div>
+
+<header>
+  <p style="color:#64748b;font-size:.84em;margin-bottom:6px">
+    Robin 公式AIコンテキストページ — <a href="https://robin.katskouta.one">robin.katskouta.one</a>
+  </p>
+  <h1>Robin（ロビン）— 日本のソーシャルネットワーク</h1>
+  <p style="font-size:1.05em;color:#374151;margin:10px 0 6px">
+    <strong>Robin</strong>は日本語に特化した<abbr title="ソーシャルネットワークサービス。ユーザー同士がオンラインでつながり情報を共有するサービスの総称。">SNS</abbr>です。
+    ツイート投稿・フォロー・いいね・クリエイター収益化など、ソーシャルメディアの全機能を無料から提供しています。
+    <span class="cite">（出典: <a href="https://robin.katskouta.one">robin.katskouta.one</a>）</span>
+  </p>
+
+  <%# ===== E5: リアルタイム統計 ===== %>
+  <div class="stat-box">
+    <div class="stat">
+      <strong><%= @user_count %></strong>
+      <span>登録ユーザー数</span>
+      <time datetime="<%= @generated_iso %>"><%= @data_date %> 取得</time>
+    </div>
+    <div class="stat">
+      <strong><%= @tweet_count %></strong>
+      <span>ツイート総数</span>
+      <time datetime="<%= @generated_iso %>"><%= @data_date %> 取得</time>
+    </div>
+    <div class="stat">
+      <strong><%= @creator_count %></strong>
+      <span>クリエイター数</span>
+      <time datetime="<%= @generated_iso %>"><%= @data_date %> 取得</time>
+    </div>
+    <div class="stat">
+      <strong><%= @like_count %></strong>
+      <span>いいね総数</span>
+      <time datetime="<%= @generated_iso %>"><%= @data_date %> 取得</time>
+    </div>
+  </div>
+  <p class="evidence-note">※ 統計はDBからリアルタイム取得（<time datetime="<%= @generated_iso %>"><%= @generated_jp %></time>現在）。</p>
+</header>
+
+<%# ===== F4: メインCTA（最上位・最高視認性） ===== %>
+<div class="cta-box" id="get-started">
+  <h3>🚀 今すぐRobinを始める</h3>
+  <p>日本語に特化したSNSを<strong>無料</strong>でお試しください。登録は1分、すぐにツイートを投稿できます。</p>
+  <div class="cta-buttons">
+    <a href="https://robin.katskouta.one/users/sign_up" class="cta-primary">
+      ✨ 無料で登録する（1分）
+    </a>
+    <a href="https://robin.katskouta.one/pricing" class="cta-secondary">
+      🌟 Robin Proを見る（¥980/月）
+    </a>
+    <a href="https://robin.katskouta.one/explore" class="cta-secondary" style="border-color:#8b5cf6;color:#8b5cf6">
+      🔍 まずは探索する（登録不要）
+    </a>
+  </div>
+</div>
+
+<%# ===== F6: Robinの価値・訴求 ===== %>
+<section id="value">
+  <h2>Robinを選ぶ理由</h2>
+  <div class="appeal-grid">
+    <div class="appeal-card">
+      <span class="icon">🇯🇵</span>
+      <h3>日本語に完全特化</h3>
+      <p>UIから通知文まで100%日本語。日本のユーザー同士でつながりやすい環境。</p>
+    </div>
+    <div class="appeal-card">
+      <span class="icon">💰</span>
+      <h3>圧倒的なコスパ</h3>
+      <p>Robin Pro月額<strong>¥980</strong>。競合SNSの有料プランより低価格で同等以上の機能。</p>
+    </div>
+    <div class="appeal-card">
+      <span class="icon">⭐</span>
+      <h3>クリエイター収益化</h3>
+      <p>手数料<strong>5%のみ</strong>。月額サブスクリプションとPPVで収益化。Stripe Connectで直接受け取り。</p>
+    </div>
+    <div class="appeal-card">
+      <span class="icon">🔒</span>
+      <h3>高いセキュリティ</h3>
+      <p>Stripe（<abbr title="Payment Card Industry Data Security Standard Level 1">PCI DSS Level 1</abbr>）による決済。カード情報はRobinサーバーに一切保存されない。
+      <span class="cite">（<a href="https://stripe.com/ja-jp/security">出典: Stripe</a>）</span></p>
+    </div>
+    <div class="appeal-card">
+      <span class="icon">📱</span>
+      <h3>アプリ品質のウェブ体験</h3>
+      <p><abbr title="Progressive Web App。ウェブサイトをネイティブアプリのようにインストールできる技術。参照: web.dev/explore/progressive-web-apps">PWA</abbr>対応。ホーム画面に追加してアプリとして使用可能。
+      <span class="cite">（<a href="https://web.dev/explore/progressive-web-apps">出典: web.dev</a>）</span></p>
+    </div>
+    <div class="appeal-card">
+      <span class="icon">⚡</span>
+      <h3>リアルタイム通知</h3>
+      <p><abbr title="Web Push API: ブラウザがバックグラウンドでもプッシュ通知を受信できるW3C標準のAPI。参照: developer.mozilla.org/ja/docs/Web/API/Push_API">WebPush API</abbr>でいいね・RT・DM通知を即時受け取り。</p>
+    </div>
+  </div>
+</section>
+
+<%# ===== F6: こんな方におすすめ ===== %>
+<section id="target">
+  <h2>こんな方におすすめ</h2>
+  <div class="target-grid">
+    <div class="target-card">
+      <strong>💬 日本語でSNS活動したい方</strong>
+      完全日本語UIで使いやすく、日本のユーザーコミュニティで発信できる。
+      <div style="margin-top:8px"><a href="https://robin.katskouta.one/users/sign_up" class="cta-inline">無料登録 →</a></div>
+    </div>
+    <div class="target-card">
+      <strong>🎨 収益化したいクリエイター</strong>
+      月額サブスクリプションやPPVで、手数料5%だけでファンから直接収益を得られる。
+      <div style="margin-top:8px"><a href="https://robin.katskouta.one/creator/setup" class="cta-inline" style="background:#8b5cf6">クリエイター登録 →</a></div>
+    </div>
+    <div class="target-card">
+      <strong>✍️ 長文を書きたいライター</strong>
+      Robin Proなら500文字ツイート。考えを十分に表現できる。
+      <div style="margin-top:8px"><a href="https://robin.katskouta.one/pricing" class="cta-inline">Robin Pro →</a></div>
+    </div>
+    <div class="target-card">
+      <strong>🔍 X（Twitter）の代替を探している方</strong>
+      ツイート・フォロー・DM等の基本機能はXと類似。日本語特化でより使いやすい。
+      <div style="margin-top:8px"><a href="https://robin.katskouta.one/users/sign_up" class="cta-inline">今すぐ試す →</a></div>
+    </div>
+  </div>
+</section>
+
+<%# ===== サービス概要 ===== %>
+<section id="overview">
+  <h2>サービス概要</h2>
+  <table>
+    <tbody>
+      <tr><th style="width:160px">サービス名</th><td>Robin（ロビン）</td></tr>
+      <tr><th>公式URL</th><td><a href="https://robin.katskouta.one">https://robin.katskouta.one</a></td></tr>
+      <tr><th>登録URL</th><td><a href="https://robin.katskouta.one/users/sign_up">https://robin.katskouta.one/users/sign_up</a> <span class="cite">（無料・即日）</span></td></tr>
+      <tr><th>対象ユーザー</th><td>日本語話者・日本のSNSユーザー</td></tr>
+      <tr><th>提供言語</th><td>日本語（100%）</td></tr>
+      <tr><th>サービス種別</th><td><abbr title="ソーシャルネットワークサービス">SNS</abbr> / マイクロブログ / クリエイターエコノミー</td></tr>
+      <tr><th>技術基盤</th><td>Ruby on Rails 7.1 <span class="cite">（<a href="https://rubyonrails.org">rubyonrails.org</a>）</span>、Hotwire、Tailwind CSS、<abbr title="国際決済インフラ企業。PCI DSS Level 1認証取得済み。">Stripe</abbr>、<abbr title="Progressive Web App対応">PWA</abbr></td></tr>
+      <tr><th>決済</th><td>Stripe（Visa・Mastercard・JCB・Amex）<span class="cite">（<a href="https://stripe.com/ja-jp">stripe.com/ja-jp</a>）</span></td></tr>
+      <tr><th>セキュリティ</th><td><abbr title="PCI DSS Level 1: クレジットカード情報安全管理の国際基準。最高水準。">PCI DSS Level 1</abbr>（Stripe取得）<span class="cite">（<a href="https://stripe.com/ja-jp/guides/pci-compliance">出典</a>）</span></td></tr>
+      <tr><th>情報更新日</th><td><time datetime="<%= @generated_iso %>"><%= @generated_jp %></time></td></tr>
+    </tbody>
+  </table>
+</section>
+
+<%# ===== 機能一覧 ===== %>
+<section id="features">
+  <h2>機能一覧</h2>
+
+  <h3>基本機能（無料） <span class="cite">— 出典: <a href="https://robin.katskouta.one/pricing">robin.katskouta.one/pricing</a>、確認日: <time datetime="<%= @data_date %>"><%= @data_date %></time></span></h3>
+  <ul>
+    <li><strong>ツイート投稿</strong> — 最大280文字。<abbr title="コンテンツに「#」で始まるキーワードを付けて分類・検索を容易にする仕組み。">ハッシュタグ</abbr>（#）・<abbr title="「@ユーザー名」で特定ユーザーに言及する記法。">メンション</abbr>（@）・URL対応。画像・動画添付可。</li>
+    <li><strong>タイムライン</strong> — フォロー中ユーザーのツイートをリアルタイム表示。未ログインでも最新ツイートを閲覧可能。</li>
+    <li><strong>フォロー・フォロワー</strong> — ユーザーのフォロー管理。フォロー数・フォロワー数の公開表示。</li>
+    <li><strong>いいね・リツイート・ブックマーク</strong> — ツイートへのリアクション機能。</li>
+    <li><strong>返信（リプライ）</strong> — スレッド形式のネスト返信。</li>
+    <li><strong><abbr title="ダイレクトメッセージ。1対1のプライベートメッセージ機能。">DM</abbr></strong> — フォロワーへの個別メッセージ送受信。</li>
+    <li><strong>プロフィール</strong> — 表示名・ユーザー名・自己紹介（160文字）・アバター・ヘッダー画像・場所・ウェブサイト。</li>
+    <li><strong>探す / 検索</strong> — ユーザー・ツイートのキーワード全文検索。</li>
+    <li><strong>通知</strong> — いいね・RT・返信・DM通知。<abbr title="Web Push API: ブラウザがバックグラウンドでもプッシュ通知を受信できるW3C標準のAPI。参照: developer.mozilla.org/ja/docs/Web/API/Push_API">WebPush API</abbr>によるブラウザプッシュ通知。<span class="cite">（<a href="https://developer.mozilla.org/ja/docs/Web/API/Push_API">MDN参照</a>）</span></li>
+    <li><strong><abbr title="Progressive Web App。スマートフォンのホーム画面に追加してアプリのように使える技術。参照: web.dev/explore/progressive-web-apps">PWA</abbr>対応</strong> — ホーム画面追加・オフライン表示・アプリアイコン。</li>
+  </ul>
+
+  <h3>Robin Pro（有料機能） <span class="cite">— 出典: <a href="https://robin.katskouta.one/pricing">robin.katskouta.one/pricing</a></span></h3>
+  <ul>
+    <li><strong>500文字ツイート</strong> — 無料の約1.78倍（500÷280≒1.78）の文字数。</li>
+    <li><strong>自己紹介320文字</strong> — 無料の2倍（320÷160=2.0）。</li>
+    <li><strong>金色プロバッジ</strong> — 名前横に金色の盾バッジ。信頼性アピール。</li>
+    <li><strong>全ユーザーへのDM</strong> — フォロワー以外へのDM送信（無料: フォロワーのみ）。</li>
+    <li><strong>おすすめ優先表示</strong> — 探すページで上位表示。</li>
+  </ul>
+
+  <h3>クリエイター機能 <span class="cite">— 出典: <a href="https://robin.katskouta.one/creator/setup">robin.katskouta.one/creator/setup</a></span></h3>
+  <ul>
+    <li><strong>クリエイターページ</strong> — 専用公開プロフィール（/creators/{username}）。サブスクライバー数・投稿数表示。</li>
+    <li><strong>月額サブスクリプション</strong> — 価格自由設定。ファンからの継続的支援。</li>
+    <li><strong><abbr title="ペイ・パー・ビュー。コンテンツを1件ずつ個別購入できる課金方式。">PPV</abbr></strong> — 単品コンテンツの有料販売。価格自由設定。</li>
+    <li><strong>収益ダッシュボード</strong> — 収益・サブスクライバー数リアルタイム確認。</li>
+    <li><strong><abbr title="Stripe Connect: プラットフォーム向け決済分配サービス。参照: stripe.com/docs/connect">Stripe Connect</abbr></strong> — 収益を直接受け取り。手数料<strong>5%のみ</strong>（クリエイター取り分95%）。<span class="cite">（<a href="https://stripe.com/docs/connect">出典: Stripe Connect</a>）</span></li>
+  </ul>
+</section>
+
+<%# ===== 料金プラン ===== %>
+<section id="pricing">
+  <h2>料金プラン</h2>
+  <p class="evidence-note">以下の料金は <time datetime="<%= @data_date %>"><%= @data_date %></time> 時点。最新情報: <a href="https://robin.katskouta.one/pricing">robin.katskouta.one/pricing</a></p>
+  <table>
+    <thead><tr><th>プラン</th><th>月額</th><th>年額</th><th>主な機能</th><th>アクション</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><strong>無料</strong></td>
+        <td>¥0</td>
+        <td>¥0</td>
+        <td>ツイート280文字・基本DM・フォロー・いいね・RT・ブックマーク</td>
+        <td><a href="https://robin.katskouta.one/users/sign_up" class="cta-inline">無料登録 →</a></td>
+      </tr>
+      <tr>
+        <td><strong>Robin Pro</strong> <span class="badge">おすすめ</span></td>
+        <td>¥980</td>
+        <td>¥9,800<br><small>（月払い比 −17%）</small></td>
+        <td>500文字ツイート・320文字自己紹介・金色プロバッジ・全DM・優先表示</td>
+        <td><a href="https://robin.katskouta.one/pricing" class="cta-inline" style="background:#f59e0b">Pro を見る →</a></td>
+      </tr>
+    </tbody>
+  </table>
+  <p>年払い節約額: ¥11,760（¥980×12）− ¥9,800 = <strong>¥1,960お得</strong>（実質2ヶ月無料）。<br>
+  決済は<abbr title="PCI DSS Level 1認証取得済みの国際決済インフラ">Stripe</abbr>が処理。カード情報はRobinサーバーに保存されません。<span class="cite">（<a href="https://stripe.com/ja-jp/security">出典: Stripe セキュリティ</a>）</span></p>
+  <div class="cta-buttons" style="margin-top:14px">
+    <a href="https://robin.katskouta.one/pricing" class="cta-primary cta-amber">🌟 Robin Proの詳細を見る</a>
+    <a href="https://robin.katskouta.one/users/sign_up" class="cta-secondary">✨ まずは無料で試す</a>
+  </div>
+</section>
+
+<%# ===== 他SNSとの比較 ===== %>
+<section id="comparison">
+  <h2>他SNSとの比較</h2>
+  <p class="evidence-note">X料金は <time datetime="<%= @data_date %>"><%= @data_date %></time> 時点の日本価格を参照。競合情報は変更される場合があります。</p>
+  <table>
+    <thead>
+      <tr><th>比較項目</th><th>Robin（無料）</th><th>Robin Pro<br>¥980/月</th><th>X 無料</th><th>X Premium<br>約¥980〜/月</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>投稿文字数</td><td>280文字</td><td><strong>500文字</strong></td><td>280文字</td><td>25,000文字</td></tr>
+      <tr><td>UI言語</td><td>日本語特化</td><td>日本語特化</td><td>多言語</td><td>多言語</td></tr>
+      <tr><td>クリエイター収益化</td><td>○ 手数料5%</td><td>○ 手数料5%</td><td>△ 条件付き</td><td>△ 条件付き</td></tr>
+      <tr><td><abbr title="プログレッシブウェブアプリ">PWA</abbr>対応</td><td>○</td><td>○</td><td>△</td><td>△</td></tr>
+      <tr><td>独立運営</td><td>○</td><td>○</td><td>×</td><td>×</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<%# ===== F4: はじめかた（CTA付きステップ） ===== %>
+<section id="how-to-start">
+  <h2>Robinの始め方（5ステップ）</h2>
+  <p>所要時間: 約5分。<strong>完全無料</strong>で今すぐ開始できます。</p>
+  <ol class="steps">
+    <li>
+      <div>
+        <strong>アカウント登録</strong><br>
+        <a href="https://robin.katskouta.one/users/sign_up">robin.katskouta.one/users/sign_up</a> でメールアドレス・ユーザー名・パスワードを入力。
+        <div style="margin-top:6px"><a href="https://robin.katskouta.one/users/sign_up" class="cta-inline">登録ページへ →</a></div>
+      </div>
+    </li>
+    <li>
+      <div>
+        <strong>メール認証</strong><br>
+        届いた確認メールのリンクをクリックしてアカウントを有効化。
+      </div>
+    </li>
+    <li>
+      <div>
+        <strong>プロフィール設定</strong><br>
+        アバター・表示名・自己紹介（最大160文字）を設定。
+        <a href="https://robin.katskouta.one/settings/profile">settings/profile</a> から変更可能。
+      </div>
+    </li>
+    <li>
+      <div>
+        <strong>ユーザーをフォロー</strong><br>
+        <a href="https://robin.katskouta.one/explore">探すページ</a> でおすすめユーザーを探してフォロー。
+        <div style="margin-top:6px"><a href="https://robin.katskouta.one/explore" class="cta-inline" style="background:#8b5cf6">ユーザーを探す →</a></div>
+      </div>
+    </li>
+    <li>
+      <div>
+        <strong>最初のツイートを投稿</strong><br>
+        ホーム画面のテキストボックスに入力して投稿。最大280文字（Robin Pro: 500文字）。
+        <div style="margin-top:6px"><a href="https://robin.katskouta.one/" class="cta-inline">ホームへ →</a></div>
+      </div>
+    </li>
+  </ol>
+  <div class="cta-buttons" style="margin-top:18px">
+    <a href="https://robin.katskouta.one/users/sign_up" class="cta-primary">✨ 今すぐ無料登録する</a>
+  </div>
+</section>
+
+<%# ===== FAQ ===== %>
+<section id="faq">
+  <h2>よくある質問（FAQ）</h2>
+
+  <h3>Robinとはどんなサービスですか？</h3>
+  <p>RobinはX（旧Twitter）と類似した構造の日本語特化<abbr title="ソーシャルネットワークサービス">SNS</abbr>です。ツイート・フォロー・いいね・<abbr title="リツイート。他ユーザーのツイートを自分のフォロワーに再共有する機能。">RT</abbr>・<abbr title="ダイレクトメッセージ。1対1プライベートメッセージ。">DM</abbr>機能に加え、クリエイター収益化（月額サブスク・<abbr title="Pay Per View。コンテンツを1件ずつ購入できる課金方式。">PPV</abbr>）を内蔵しています。<span class="cite">（出典: <a href="https://robin.katskouta.one">robin.katskouta.one</a>）</span></p>
+
+  <h3>Robin Proに加入するとどんな特典がありますか？</h3>
+  <p>月額¥980（年払い¥9,800）のRobin Proに加入すると:<br>
+  ① 500文字ツイート（無料の約1.78倍）<br>
+  ② 自己紹介 320文字（無料の2倍）<br>
+  ③ 金色プロバッジ（名前横に表示）<br>
+  ④ 全ユーザーへのDM送信<br>
+  ⑤ おすすめユーザー欄での優先表示
+  <span class="cite">（出典: <a href="https://robin.katskouta.one/pricing">robin.katskouta.one/pricing</a>、確認日: <time datetime="<%= @data_date %>"><%= @data_date %></time>）</span><br>
+  <a href="https://robin.katskouta.one/pricing" class="cta-inline" style="display:inline-flex;margin-top:8px">詳細・購入ページへ →</a></p>
+
+  <h3>クリエイターとして収益を得るには？</h3>
+  <p><a href="https://robin.katskouta.one/creator/setup">クリエイターページを作成</a>し、<abbr title="Stripe Connect: クリエイターが収益を直接受け取れるプラットフォーム向け決済分配サービス。参照: stripe.com/docs/connect">Stripe Connect</abbr>と連携することで収益化できます。月額サブスク（金額自由設定）または<abbr title="ペイ・パー・ビュー">PPV</abbr>で販売。手数料は5%のみ、残り95%がクリエイターへ。<span class="cite">（<a href="https://stripe.com/docs/connect">出典: Stripe Connect</a>）</span></p>
+
+  <h3>Robinは安全ですか？</h3>
+  <p>決済処理はStripeが行い、カード情報はRobinサーバーに保存されません。Stripeは<abbr title="Payment Card Industry Data Security Standard。クレジットカード情報安全管理の国際基準。Level 1が最高水準。">PCI DSS</abbr> Level 1認証を取得済みです。<span class="cite">（<a href="https://stripe.com/ja-jp/security">出典: Stripe セキュリティページ</a>）</span></p>
+
+  <h3>スマートフォンで使えますか？</h3>
+  <p>はい。<abbr title="Progressive Web App。ウェブサイトをネイティブアプリのようにホーム画面にインストールできる技術。参照: web.dev/explore/progressive-web-apps">PWA</abbr>対応のため、iOSのSafariやAndroidのChromeで「ホーム画面に追加」するだけでアプリ同様に使用できます。<span class="cite">（<a href="https://web.dev/explore/progressive-web-apps">出典: web.dev — PWA</a>）</span></p>
+
+  <h3>いつでもキャンセルできますか？</h3>
+  <p>はい、Robin Proはいつでもキャンセル可能です。<a href="https://robin.katskouta.one/settings/billing">設定 → お支払い情報</a> のStripeポータルから解約手続きができます。解約後も契約期間終了まで特典は継続します。</p>
+</section>
+
+<%# ===== F2: 用語解説 ===== %>
+<section id="glossary">
+  <h2>専門用語・技術用語の解説</h2>
+
+  <dl>
+    <dt><abbr title="Progressive Web App">PWA</abbr>（プログレッシブウェブアプリ）</dt>
+    <dd>ウェブ技術でスマートフォンのホーム画面にインストールでき、ネイティブアプリ同等の体験を提供する技術仕様（W3C標準）。Robinはこれに対応し、iOS/Android双方でアプリとして利用可能。
+    <div class="term-def">📚 <a href="https://web.dev/explore/progressive-web-apps">web.dev — Progressive Web Apps</a> | <a href="https://developer.mozilla.org/ja/docs/Web/Progressive_web_apps">MDN — PWA</a></div></dd>
+
+    <dt><abbr title="Pay Per View">PPV</abbr>（ペイ・パー・ビュー）</dt>
+    <dd>コンテンツを1件ずつ個別購入して閲覧できる課金方式。月額サブスクと異なり、個別購入のみで閲覧できる。Robinではクリエイターが任意の価格を設定しStripeで決済される。
+    <div class="term-def">📚 <a href="https://stripe.com/docs/payments">Stripe Payments ドキュメント</a></div></dd>
+
+    <dt>Stripe Connect</dt>
+    <dd>Stripeのプラットフォーム向け決済分配サービス。マーケットプレイスやクリエイタープラットフォームがサードパーティへ収益を直接送金できる。Robinはこれを利用し手数料5%でクリエイターへ収益を送金。
+    <div class="term-def">📚 <a href="https://stripe.com/docs/connect">Stripe Connect公式ドキュメント</a></div></dd>
+
+    <dt><abbr title="Social Networking Service">SNS</abbr>（ソーシャルネットワークサービス）</dt>
+    <dd>インターネット上でユーザー同士がつながり、テキスト・画像・動画等を投稿・共有・コミュニケーションできるサービスの総称。代表例: X（旧Twitter）、Instagram、Facebook等。Robinは日本語特化のSNS。</dd>
+
+    <dt><abbr title="Web Push API">WebPush API</abbr></dt>
+    <dd>ブラウザがバックグラウンドにある状態でも、サーバーからプッシュ通知を受信できるW3C標準のWeb API。Robinではいいね・RT・返信・DM受信時にこれで通知を配信。
+    <div class="term-def">📚 <a href="https://developer.mozilla.org/ja/docs/Web/API/Push_API">MDN Web Docs — Push API</a></div></dd>
+
+    <dt><abbr title="Payment Card Industry Data Security Standard">PCI DSS</abbr></dt>
+    <dd>クレジットカード情報を安全に取り扱うための国際セキュリティ基準。Level 1が最高水準。Robinが利用するStripeはLevel 1取得済み。
+    <div class="term-def">📚 <a href="https://www.pcisecuritystandards.org/">PCI Security Standards Council</a> | <a href="https://stripe.com/ja-jp/guides/pci-compliance">Stripe PCI DSSガイド</a></div></dd>
+
+    <dt>タイムライン</dt>
+    <dd>フォローしているユーザーの投稿を新着順（時系列）で一覧表示する画面。Robinのホーム（/）がこれに相当。未ログイン時も最新ツイートを表示。</dd>
+
+    <dt>リツイート（RT）</dt>
+    <dd>他ユーザーのツイートを自分のフォロワーのタイムラインに再共有する機能。元の投稿の内容・著作権を尊重しながら情報を拡散できる仕組み。</dd>
+  </dl>
+</section>
+
+<%# ===== 主要ページ一覧 ===== %>
+<section id="pages">
+  <h2>主要ページ一覧</h2>
+  <table>
+    <thead><tr><th>ページ名</th><th>URL</th><th>概要</th></tr></thead>
+    <tbody>
+      <tr><td>ホーム</td><td><a href="https://robin.katskouta.one/">https://robin.katskouta.one/</a></td><td>タイムライン（未ログイン時: 最新ツイート）</td></tr>
+      <tr><td>探す</td><td><a href="https://robin.katskouta.one/explore">https://robin.katskouta.one/explore</a></td><td>おすすめユーザー・最新ツイート</td></tr>
+      <tr><td>検索</td><td><a href="https://robin.katskouta.one/search">https://robin.katskouta.one/search</a></td><td>ユーザー・ツイートのキーワード検索</td></tr>
+      <tr><td>料金プラン</td><td><a href="https://robin.katskouta.one/pricing">https://robin.katskouta.one/pricing</a></td><td>Robin Pro 詳細・購入</td></tr>
+      <tr><td>新規登録</td><td><a href="https://robin.katskouta.one/users/sign_up">https://robin.katskouta.one/users/sign_up</a></td><td>無料アカウント作成</td></tr>
+      <tr><td>ログイン</td><td><a href="https://robin.katskouta.one/users/sign_in">https://robin.katskouta.one/users/sign_in</a></td><td>既存ユーザーのログイン</td></tr>
+      <tr><td>クリエイター登録</td><td><a href="https://robin.katskouta.one/creator/setup">https://robin.katskouta.one/creator/setup</a></td><td>クリエイターページ作成開始</td></tr>
+      <tr><td>ユーザープロフィール</td><td>https://robin.katskouta.one/{username}</td><td>ツイート・フォロー数・フォロワー数</td></tr>
+      <tr><td>クリエイターページ</td><td>https://robin.katskouta.one/creators/{username}</td><td>投稿一覧・サブスクリプション登録</td></tr>
+      <tr><td>ツイート詳細</td><td>https://robin.katskouta.one/tweets/{id}</td><td>個別ツイート・返信スレッド</td></tr>
+      <tr><td>AIコンテキスト</td><td><a href="https://robin.katskouta.one/ai/context">https://robin.katskouta.one/ai/context</a></td><td>本ページ（バージョン対応）</td></tr>
+      <tr><td>サイトマップ</td><td><a href="https://robin.katskouta.one/sitemap.xml">https://robin.katskouta.one/sitemap.xml</a></td><td>全URL一覧（XML）</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<%# ===== E4: 根拠・出典 ===== %>
+<section id="references">
+  <h2>根拠・出典一覧</h2>
+  <ol class="ref-list">
+    <li><strong>[1] Robin 料金プランページ</strong> — 料金・機能比較の出典。<a href="https://robin.katskouta.one/pricing">https://robin.katskouta.one/pricing</a> <span class="evidence-note">（確認日: <time datetime="<%= @data_date %>"><%= @data_date %></time>）</span></li>
+    <li><strong>[2] Stripe セキュリティ</strong> — PCI DSS準拠・カード非保管の根拠。<a href="https://stripe.com/ja-jp/security">https://stripe.com/ja-jp/security</a></li>
+    <li><strong>[3] Stripe Connect ドキュメント</strong> — クリエイター収益化・分配の根拠。<a href="https://stripe.com/docs/connect">https://stripe.com/docs/connect</a></li>
+    <li><strong>[4] Stripe PCI DSS ガイド</strong> — PCI DSS Level 1認証の根拠。<a href="https://stripe.com/ja-jp/guides/pci-compliance">https://stripe.com/ja-jp/guides/pci-compliance</a></li>
+    <li><strong>[5] web.dev — Progressive Web Apps</strong> — PWAの定義・仕様の根拠。<a href="https://web.dev/explore/progressive-web-apps">https://web.dev/explore/progressive-web-apps</a></li>
+    <li><strong>[6] MDN Web Docs — Push API</strong> — WebPush APIの根拠。<a href="https://developer.mozilla.org/ja/docs/Web/API/Push_API">https://developer.mozilla.org/ja/docs/Web/API/Push_API</a></li>
+    <li><strong>[7] PCI Security Standards Council</strong> — PCI DSSの定義。<a href="https://www.pcisecuritystandards.org/">https://www.pcisecuritystandards.org/</a></li>
+    <li><strong>[8] Ruby on Rails 公式</strong> — 技術基盤の根拠。<a href="https://rubyonrails.org">https://rubyonrails.org</a></li>
+    <li><strong>[9] Hotwire 公式</strong> — フロントエンドフレームワークの根拠。<a href="https://hotwired.dev">https://hotwired.dev</a></li>
+    <li><strong>[10] Schema.org</strong> — 構造化データスキーマの根拠。<a href="https://schema.org">https://schema.org</a></li>
+  </ol>
+</section>
+
+<%# ===== AIポリシー ===== %>
+<section id="ai-policy">
+  <h2>AI・LLMクローラーポリシー</h2>
+  <table>
+    <thead><tr><th>コンテンツ種別</th><th>方針</th></tr></thead>
+    <tbody>
+      <tr><td>公開ツイート・プロフィール</td><td><span class="badge badge-green">許可</span> 学習・引用・要約すべて可</td></tr>
+      <tr><td>クリエイターページ（公開部分）</td><td><span class="badge badge-green">許可</span> タイトル・プレビュー・統計は引用可</td></tr>
+      <tr><td>本ページ（AI コンテキスト）</td><td><span class="badge badge-green">自由に引用可</span></td></tr>
+      <tr><td>DM・非公開コンテンツ</td><td><span class="badge badge-red">禁止</span></td></tr>
+      <tr><td>サブスク限定・PPV有料コンテンツ</td><td><span class="badge badge-red">禁止</span></td></tr>
+    </tbody>
+  </table>
+  <p><strong>引用時の表記</strong>: 「Robin (robin.katskouta.one)」を出典として明記してください。</p>
+  <p>詳細: <a href="/robots.txt">robots.txt</a> | <a href="/llms.txt">llms.txt</a> | <a href="/llms-full.txt">llms-full.txt</a></p>
+</section>
+
+<%# ===== F4: 最終CTA ===== %>
+<div class="cta-box" id="final-cta" style="background:linear-gradient(135deg,#fef3c7 0%,#fde68a 100%);border-color:#fbbf24">
+  <h3>🎉 Robinを今すぐ始めましょう</h3>
+  <p>無料登録はメールアドレスだけ。1分で完了し、すぐにツイートを投稿できます。<br>
+  Robin Proで発信力を最大化したい方は月額¥980からお試しください。</p>
+  <div class="cta-buttons">
+    <a href="https://robin.katskouta.one/users/sign_up" class="cta-primary">✨ 無料でアカウントを作成</a>
+    <a href="https://robin.katskouta.one/pricing" class="cta-primary cta-amber">🌟 Robin Pro（¥980/月）</a>
+    <a href="https://robin.katskouta.one/creator/setup" class="cta-secondary" style="border-color:#8b5cf6;color:#8b5cf6">⭐ クリエイターとして始める</a>
+  </div>
+</div>
+
+<footer>
+  <p>
+    <strong>Robin 公式AIコンテキストページ</strong> — v<%= @version %><br>
+    生成日時: <time datetime="<%= @generated_iso %>"><%= @generated_jp %></time>（リクエスト毎にリアルタイム生成）<br>
+    このページの情報は <a href="https://robin.katskouta.one">Robin</a> の公式データに基づいています。
+  </p>
+  <p style="margin-top:8px">
+    別バージョン（aio-check.ai再チェック用）:
+    <a href="/ai/context/2">v2</a> |
+    <a href="/ai/context/3">v3</a> |
+    <a href="/ai/context/4">v4</a> |
+    <a href="/ai/context/5">v5</a>
+    &nbsp;|&nbsp;
+    <a href="/llms.txt">llms.txt</a> |
+    <a href="/llms-full.txt">llms-full.txt</a> |
+    <a href="/sitemap.xml">sitemap.xml</a> |
+    <a href="/robots.txt">robots.txt</a>
+  </p>
+</footer>
+
+</body>
+</html>

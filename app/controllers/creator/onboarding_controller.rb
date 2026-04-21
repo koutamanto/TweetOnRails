@@ -27,6 +27,9 @@ class Creator::OnboardingController < Creator::BaseController
   def stripe_return
     @creator_profile = current_user.creator_profile
     return redirect_to creator_setup_path unless @creator_profile
+    unless @creator_profile.stripe_account_id.present?
+      return redirect_to creator_stripe_connect_path, alert: "Stripe アカウントが見つかりません。再度お試しください。"
+    end
     account = Stripe::Account.retrieve(@creator_profile.stripe_account_id)
     if account.details_submitted
       @creator_profile.update!(stripe_onboarded: true)

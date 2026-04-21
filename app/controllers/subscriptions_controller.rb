@@ -9,6 +9,10 @@ class SubscriptionsController < ApplicationController
       ENV["STRIPE_PRO_YEARLY_PRICE_ID"] :
       ENV["STRIPE_PRO_MONTHLY_PRICE_ID"]
 
+    unless price_id.present?
+      return redirect_to pricing_path, alert: "プランの設定が完了していません。しばらくしてから再度お試しください。"
+    end
+
     customer = current_user.create_or_retrieve_stripe_customer!
 
     # Build success URL with the Stripe template variable appended as a raw string
